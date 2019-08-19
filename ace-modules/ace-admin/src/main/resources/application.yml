@@ -46,7 +46,7 @@ spring:
           server-addr: 192.168.11.234:8848
       sentinel:
         transport:
-          dashboard: localhost:8080
+          dashboard: 192.168.11.234:8088
 sample:
   zipkin:
     # When enabled=false, traces log to the console. Comment to send to zipkin
@@ -115,7 +115,7 @@ redis:
          maxActive: 300
          maxIdle: 100
          maxWait: 1000
-    host: ${REDIS_HOST:localhost}
+    host: ${REDIS_HOST:192.168.11.234}
     port:  ${REDIS_PORT:6379}
     password: 123456
     timeout: 2000

@@ -49,7 +49,7 @@ spring:
         server-addr: 192.168.11.234:8848
     sentinel:
       transport:
-        dashboard: localhost:8080
+        dashboard: 192.168.11.234:8088
 mybatis:
   basepackage: com.github.wxiaoqi.security.auth.mapper
   xmlLocation: classpath:mapper/**/*.xml

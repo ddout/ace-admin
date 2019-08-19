@@ -62,7 +62,7 @@ spring:
           server-addr: 192.168.11.234:8848
   sentinel:
     transport:
-      dashboard: localhost:8080
+      dashboard: 192.168.11.234:8088
 logging:
   level:
     com.github.wxiaoqi.security.gate.v2: info
