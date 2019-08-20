@@ -76,6 +76,9 @@ import {
   putObj
 } from 'api/admin/user/index';
 import { mapGetters } from 'vuex';
+import md5 from 'js-md5';
+
+
 export default {
   name: 'user',
   data() {
@@ -218,7 +221,9 @@ export default {
       const set = this.$refs;
       set[formName].validate(valid => {
         if (valid) {
-          addObj(this.form)
+          let submitForm = this.form;
+          submitForm.password = md5(this.form.password);
+          addObj(submitForm)
             .then(() => {
               this.dialogFormVisible = false;
               this.getList();

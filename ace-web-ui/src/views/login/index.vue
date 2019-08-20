@@ -17,16 +17,14 @@
     </el-form-item>
   </el-form>
 
-  <el-dialog title="第三方验证" :visible.sync="showDialog">
-    邮箱登录成功,请选择第三方验证
-    <social-sign></social-sign>
-  </el-dialog>
 
 </div>
 </template>
 
 <script>
 import socialSign from './socialsignin';
+import md5 from 'js-md5';
+
 
 export default {
   components: {
@@ -73,7 +71,9 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
-          this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
+          let submitForm = this.loginForm;
+          submitForm.password = md5(this.loginForm.password)
+          this.$store.dispatch('LoginByEmail', submitForm).then(() => {
             this.loading = false;
             this.$router.push({
               path: '/'
@@ -82,35 +82,6 @@ export default {
           }).catch(() => {
             this.loading = false;
           });
-          // this.$http.post('/oauth/token', {
-          //   username: this.loginForm.username,
-          //   password: this.loginForm.password
-          // }, {
-          //   headers: {
-          //     Authorization: 'Basic enV1bDp6dXVs'
-          //   },
-          //   emulateJSON: true,
-          //   emulateHTTP: true
-          // }).then(function(response) {
-          //   if (response.status === 200) {
-          //     this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
-          //       this.loading = false;
-          //       this.$router.push({
-          //         path: '/'
-          //       });
-          //       // this.showDialog = true;
-          //     }).catch(() => {
-          //       this.loading = false;
-          //     });
-          //   } else {
-          //     this.loading = false;
-          //     return false;
-          //   }
-          // }, function(error) {
-          //   console.log('server error!!');
-          //   this.loading = false;
-          //   return false;
-          // });
         } else {
           console.log('error submit!!');
           return false;
@@ -118,22 +89,6 @@ export default {
       });
     },
     afterQRScan() {
-      // const hash = window.location.hash.slice(1);
-      // const hashObj = getQueryObject(hash);
-      // const originUrl = window.location.origin;
-      // history.replaceState({}, '', originUrl);
-      // const codeMap = {
-      //   wechat: 'code',
-      //   tencent: 'code'
-      // };
-      // const codeName = hashObj[codeMap[this.auth_type]];
-      // if (!codeName) {
-      //   alert('第三方登录失败');
-      // } else {
-      //   this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-      //     this.$router.push({ path: '/' });
-      //   });
-      // }
     }
   },
   created() {
