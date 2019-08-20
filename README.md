@@ -93,15 +93,15 @@ image.png
 ace-security
     
   ace-modules--------------公共服务模块（基础系统、搜索、OSS）
-   
+
   ace-auth-----------------服务鉴权中心
-   
+
   ace-gate-----------------网关负载中心
-   
+
   ace-common---------------通用脚手架
      
   ace-control--------------运维中心（监控、链路）
-  
+
   ace-sidebar--------------调用第三方语言服务
 
 环境须知!
@@ -126,12 +126,13 @@ node 版本：v6.11.2
 npm 版本：3.10.10
 开发（在UI目录下）
     
+
     # 安装依赖
     npm install
-
+    
     ## 若上述不行则采取下面命令
     npm install --registry=https://registry.npm.taobao.org
-
+    
     # 本地开发 开启服务
     npm run dev
 浏览器访问 http://localhost:9527
@@ -165,3 +166,48 @@ npm 版本：3.10.10
  index.html                 // html模板
  package.json               // package.json
 
+
+
+
+
+先启动redis、rabbitmq、mysql以及nacos注册中心
+运行数据库脚本：依次运行数据库：
+
+ace-admin/db/init.sql、ace-auth-server/db/init.sql
+依次配置修改并导入nacos注册中心：
+
+ace-auth-server/src/main/resources/application.yml
+
+ace-admin/src/main/resources/application.yml
+
+ace-gate/src/main/resources/application.yml
+按顺序运行main类：
+
+ConfigBootstrap (ace-config)
+
+AuthBootstrap（ace-auth-server）、
+
+AdminBootstrap（ace-admin）、
+
+GatewayServerBootstrap（ace-gate）、
+
+UI工程启动[Cloud-Admin-UI]点击打开
+
+
+
+#### 模块说明
+|        模块名称 | 端口 | 说明             | 顺序 |
+| --------------: | ---: | :--------------- | :--- |
+|           redis | 6379 | redis            | 0    |
+|        rabbitmq | 5672 | rabbitmq         | 0    |
+|           mysql | 3306 | mysql            | 0    |
+|    ace-sentinel | 8088 | 阿里流量控制     | 0    |
+|       ace-nacos | 8848 | 阿里注册中心     | 0    |
+|     ace-monitor | 8764 | springboot-admin | 0    |
+|                 |      |                  |      |
+|      ace-config | 8800 | 配置中心         | 1    |
+| ace-auth-server | 9777 | 授权中心         | 2    |
+|       ace-admin | 8762 | 权限管理         | 3    |
+|        ace-gate | 8765 | 网关             | 4    |
+|                 |      |                  |      |
+|                 |      |                  |      |
