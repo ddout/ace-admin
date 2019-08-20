@@ -10,7 +10,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>ace-config</artifactId>
-
+  <build>
+    <finalName>ace-config</finalName>
+  </build>
   <dependencies>
     <dependency>
       <groupId>org.springframework.cloud</groupId>
