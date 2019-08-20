@@ -75,7 +75,6 @@ management:
   security:
     enabled: false
 
-
 gate:
   ignore:
     startWith: /auth/jwt
@@ -89,7 +88,7 @@ auth:
     token-header: x-client-token
     id: ace-gate  #不填则默认读取spring.application.name
     secret: 123456
-R
+
 
 ribbon:
   eureka:
