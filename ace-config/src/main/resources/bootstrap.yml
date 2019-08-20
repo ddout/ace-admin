@@ -25,8 +25,8 @@ spring:
           git:
             uri: https://github.com/ddout/ace-config.git    # 配置git仓库的地址
             search-paths: /*
-            default-label: "@hyc.configure.label@"
-            basedir: /Users/mac/Desktop/trunk2
+            default-label: "@ace.configure.label@"
+            # basedir: /Users/mac/Desktop/trunk2
 
 ---
 #keytool -genkeypair -alias mytestkey -keyalg RSA -dname "CN=Web Server,OU=China,O=www.howardliu.cn,L=Beijing,S=Beijing,C=China" -keypass changeme -keystore config-service.jks -storepass letmein
@@ -52,8 +52,8 @@ spring:
           bootstrap: false
           git:
             uri: https://github.com/ddout/ace-config.git    # 配置git仓库的地址
-            search-paths: config-repo
-            default-label: "@hyc.configure.label@"
+            search-paths: /*
+            default-label: "@ace.configure.label@"
 
 
 ---
@@ -79,7 +79,7 @@ spring:
           default-profile: prod
           bootstrap: false
           git:
-            uri: https://github.com/ddout/ace-config.git    # 配置git仓库的地址
-            search-paths: config-repo
-            default-label: "@hyc.configure.label@"
+            uri: https://github.com/ddout/ace-config.git  # 配置git仓库的地址
+            search-paths: /*
+            default-label: "@ace.configure.label@"
 

@@ -1,10 +1,19 @@
+server:
+  port: 9000
+
 spring:
   application:
     name: ace-auth
-  cloud:
-    nacos:
-      config:
-        server-addr: 192.168.11.234:8848
-        file-extension: yaml
   profiles:
-    active: dev
+    active: "@spring.active@"
+  cloud:
+    config:
+      name: ${spring.application.name},global-server-config
+      profile: ${spring.profiles.active}
+      enabled: true
+      label: "@ace.configure.label@"
+      uri: "http://@ace.configure.ip@:@ace.configure.port@"
+
+
+
+

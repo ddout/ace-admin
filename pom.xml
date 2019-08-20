@@ -191,9 +191,9 @@
       <id>dev</id>
       <properties>
         <spring.active>dev</spring.active>
-        <hyc.configure.ip>192.168.11.234</hyc.configure.ip>
-        <hyc.configure.port>8800</hyc.configure.port>
-        <hyc.configure.label>master</hyc.configure.label>
+        <ace.configure.ip>192.168.11.234</ace.configure.ip>
+        <ace.configure.port>8800</ace.configure.port>
+        <ace.configure.label>master</ace.configure.label>
       </properties>
       <activation>
         <activeByDefault>true</activeByDefault>
@@ -203,18 +203,18 @@
       <id>test</id>
       <properties>
         <spring.active>test</spring.active>
-        <hyc.configure.ip>192.168.11.234</hyc.configure.ip>
-        <hyc.configure.port>8800</hyc.configure.port>
-        <hyc.configure.label>master</hyc.configure.label>
+        <ace.configure.ip>192.168.11.234</ace.configure.ip>
+        <ace.configure.port>8800</ace.configure.port>
+        <ace.configure.label>master</ace.configure.label>
       </properties>
     </profile>
     <profile>
       <id>prod</id>
       <properties>
         <spring.active>prod</spring.active>
-        <hyc.configure.ip>192.168.11.234</hyc.configure.ip>
-        <hyc.configure.port>8800</hyc.configure.port>
-        <hyc.configure.label>master</hyc.configure.label>
+        <ace.configure.ip>192.168.11.234</ace.configure.ip>
+        <ace.configure.port>8800</ace.configure.port>
+        <ace.configure.label>master</ace.configure.label>
       </properties>
     </profile>
 
