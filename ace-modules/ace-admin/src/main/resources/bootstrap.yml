@@ -1,10 +1,18 @@
+server:
+  port: 8762
+
 spring:
   application:
     name: ace-admin
-  cloud:
-    nacos:
-      config:
-        server-addr: 192.168.11.234:8848
-        file-extension: yaml
   profiles:
-    active: dev
+    active: "@spring.active@"
+  cloud:
+    config:
+      name: ${spring.application.name},global-server-config,data-source-mysql
+      profile: ${spring.profiles.active}
+      enabled: true
+      label: "@ace.configure.label@"
+      uri: "http://@ace.configure.ip@:@ace.configure.port@"
+
+
+

@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 9777
 
 spring:
   application:
@@ -8,7 +8,7 @@ spring:
     active: "@spring.active@"
   cloud:
     config:
-      name: ${spring.application.name},global-server-config
+      name: ${spring.application.name},global-server-config,data-source-mysql
       profile: ${spring.profiles.active}
       enabled: true
       label: "@ace.configure.label@"
