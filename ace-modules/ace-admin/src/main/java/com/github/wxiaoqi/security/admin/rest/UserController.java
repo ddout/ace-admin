@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -82,6 +83,13 @@ public class UserController extends BaseController<UserBiz, User> {
     String passwordNew = map.get("passwordNew").toString();
     String passwordNew2 = map.get("passwordNew2").toString();
     permissionService.updatePassword(token, passwordOld, passwordNew,passwordNew2 );
+  }
+
+  @RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
+  @ResponseBody
+  public void resetPassword(int id)
+      throws Exception {
+    permissionService.resetPassword(id);
   }
 
 

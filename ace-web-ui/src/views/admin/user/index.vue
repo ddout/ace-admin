@@ -28,6 +28,8 @@
             <span>{{scope.row.updName}}</span>
           </template> </el-table-column>
     <el-table-column align="center" label="操作" width="150"> <template scope="scope">
+        <el-button v-if="userManager_btn_edit" size="small" type="success" @click="handleResetPassword(scope.row)">重置密码
+        </el-button>
         <el-button v-if="userManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
         </el-button>
         <el-button v-if="userManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
@@ -73,7 +75,8 @@ import {
   addObj,
   getObj,
   delObj,
-  putObj
+  putObj,
+  resetPassword
 } from 'api/admin/user/index';
 import { mapGetters } from 'vuex';
 import md5 from 'js-md5';
@@ -196,6 +199,24 @@ export default {
           this.dialogFormVisible = true;
           this.dialogStatus = 'update';
         });
+    },
+    handleResetPassword(row) {
+      this.$confirm('此操作将用户密码重置为888888, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+      .then(() => {
+        resetPassword(row.id)
+        .then(() => {
+          this.$notify({
+            title: '成功',
+            message: '操作成功',
+            type: 'success',
+            duration: 2000
+          });
+        });
+      });
     },
     handleDelete(row) {
       this.$confirm('此操作将永久删除, 是否继续?', '提示', {

@@ -52,3 +52,10 @@ export function updatePassword(token, passwordOld, passwordNew, passwordNew2) {
     data
   });
 }
+
+export function resetPassword(id) {
+  return fetch({
+    url: '/api/admin/user/resetPassword?id='+id,
+    method: 'get'
+  });
+}
