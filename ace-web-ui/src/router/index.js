@@ -141,4 +141,28 @@ export const asyncRouterMap = [{
     name: '服务状态监控',
     authority: 'serviceZipkinManager'
   }]
-}];
+},
+  //
+  //
+  {
+    path: '/pmsDict',
+    component: Layout,
+    name: '字典管理',
+    icon: 'setting',
+    authority: 'pmsDict',
+    children: [{
+      path: 'baseDictType',
+      icon: 'fa-user',
+      component: _import('dict/baseDictType/index'),
+      name: '字典类型',
+      authority: 'baseDictType'
+    }, {
+      path: 'baseDict',
+      icon: 'category',
+      component: _import('dict/baseDict/index'),
+      name: '字典管理',
+      authority: 'baseDict'
+    }]
+  }];
+
+

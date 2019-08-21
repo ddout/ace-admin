@@ -1,0 +1,18 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: ace-pms
+  profiles:
+    active: "@spring.active@"
+  cloud:
+    config:
+      name: ${spring.application.name},global-server-config,data-source-mysql
+      profile: ${spring.profiles.active}
+      enabled: true
+      label: "@ace.configure.label@"
+      uri: "http://@ace.configure.ip@:@ace.configure.port@"
+
+
+
