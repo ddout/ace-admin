@@ -64,6 +64,9 @@ public class PermissionService {
         if(!passwordNew.equals(passwordNew2)){
             throw new BizException("新密码不一致");
         }
+        if(passwordNew.equals(passwordOld)){
+            throw new BizException("新密码不能与原密码一致");
+        }
         User entity = new User();
         BeanUtils.copyProperties(user, entity);
         String password = encoder.encode(passwordNew);
