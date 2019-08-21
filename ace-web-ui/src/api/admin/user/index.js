@@ -55,7 +55,7 @@ export function updatePassword(token, passwordOld, passwordNew, passwordNew2) {
 
 export function resetPassword(id) {
   return fetch({
-    url: '/api/admin/user/resetPassword?id='+id,
+    url: '/api/admin/user/reset/password?id='+id,
     method: 'get'
   });
 }

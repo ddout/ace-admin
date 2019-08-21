@@ -62,7 +62,7 @@ public class UserController extends BaseController<UserBiz, User> {
   }
 
 
-  @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+  @RequestMapping(value = "/reset/password", method = RequestMethod.POST)
   @ResponseBody
   public void updatePassword(@RequestBody Map<String, String> map)
       throws Exception {
