@@ -115,12 +115,7 @@ IDE插件一个，lombok插件，具体百度即可
 最多人问：代码有漏
 下载完后端代码后，记得先安装lombok插件，否则你的IDE会报代码缺失。
 
-运行步骤
-先启动redis、redis、mysql以及nacos注册中心
-运行数据库脚本：依次运行数据库：ace-admin/db/init.sql、ace-auth-server/db/init.sql
-依次配置修改并导入nacos注册中心：ace-auth-server/src/main/resources/application.yml、ace-admin/src/main/resources/application.yml、ace-gate/src/main/resources/application.yml
-按顺序运行main类：AuthBootstrap（ace-auth-server）、AdminBootstrap（ace-admin）、GatewayServerBootstrap（ace-gate）
-UI工程启动[Cloud-Admin-UI]点击打开
+
 环境搭建
 node 版本：v6.11.2
 npm 版本：3.10.10
@@ -170,30 +165,15 @@ npm 版本：3.10.10
 
 
 
-先启动redis、rabbitmq、mysql以及nacos注册中心
-运行数据库脚本：依次运行数据库：
+1. 先启动redis、rabbitmq、mysql以及nacos注册中心
 
-ace-admin/db/init.sql、ace-auth-server/db/init.sql
-依次配置修改并导入nacos注册中心：
+2. 运行数据库脚本：依次运行数据库：
 
-ace-auth-server/src/main/resources/application.yml
+   alibaba-base/biz-db/admin-init.sql
 
-ace-admin/src/main/resources/application.yml
+3. 依次配置统一配置文件并提交：
 
-ace-gate/src/main/resources/application.yml
-按顺序运行main类：
-
-ConfigBootstrap (ace-config)
-
-AuthBootstrap（ace-auth-server）、
-
-AdminBootstrap（ace-admin）、
-
-GatewayServerBootstrap（ace-gate）、
-
-UI工程启动[Cloud-Admin-UI]点击打开
-
-
+4. 按顺序运行main类：
 
 #### 模块说明
 |        模块名称 | 端口 | 说明             | 启动顺序 |
