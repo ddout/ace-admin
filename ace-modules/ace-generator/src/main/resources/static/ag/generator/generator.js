@@ -99,7 +99,9 @@ layui.use(['form', 'layedit', 'laydate'], function () {
             for(var i=0;i<generator.currentItems.length;i++){
                 tableNames.push(generator.currentItems[i].tableName);
             }
-            location.href = "/base/generator/code?tables=" + tableNames.join();
+            var mainModule = $('#mainModule').val()
+            var package= $('#package').val()
+            location.href = "/base/generator/code?package="+package+"&mainModule="+mainModule+"&tables=" + tableNames.join();
         }
     });
 });

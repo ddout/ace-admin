@@ -13,7 +13,7 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * 代码生成器
- * 
+ *
  * @author Mr.AG
  * @email 463540703@qq.com
  * @date 2017年08月25日
@@ -43,7 +43,7 @@ public class GeneratorService {
 		return generatorMapper.queryColumns(tableName);
 	}
 
-	public byte[] generatorCode(String[] tableNames) {
+	public byte[] generatorCode(String[] tableNames, String package_,String mainModule) {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		ZipOutputStream zip = new ZipOutputStream(outputStream);
 
@@ -53,7 +53,7 @@ public class GeneratorService {
 			//查询列信息
 			List<Map<String, String>> columns = queryColumns(tableName);
 			//生成代码
-			GeneratorUtils.generatorCode(table, columns, zip);
+			GeneratorUtils.generatorCode(table, columns, zip,package_, mainModule);
 		}
 		IOUtils.closeQuietly(zip);
 		return outputStream.toByteArray();

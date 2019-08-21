@@ -44,10 +44,17 @@ public class GeneratorUtils {
      * 生成代码
      */
     public static void generatorCode(Map<String, String> table,
-                                     List<Map<String, String>> columns, ZipOutputStream zip) {
+                                     List<Map<String, String>> columns, ZipOutputStream zip,String package_,String mainModule) {
         //配置信息
         Configuration config = getConfig();
-
+        String _package = config.getString("package");
+        String _mainModule = config.getString("mainModule");
+        if(null != package_ && !"".equals(package_.trim())){
+            _package = package_.trim();
+        }
+        if(null != mainModule && !"".equals(mainModule.trim())){
+            _mainModule = mainModule.trim();
+        }
         //表信息
         TableEntity tableEntity = new TableEntity();
         tableEntity.setTableName(table.get("tableName"));
@@ -103,11 +110,11 @@ public class GeneratorUtils {
         map.put("classname", tableEntity.getClassname());
         map.put("pathName", tableEntity.getClassname().toLowerCase());
         map.put("columns", tableEntity.getColumns());
-        map.put("package", config.getString("package"));
+        map.put("package", _package);
         map.put("author", config.getString("author"));
         map.put("email", config.getString("email"));
         map.put("datetime", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
-        map.put("moduleName", config.getString("mainModule"));
+        map.put("moduleName", _mainModule);
         map.put("secondModuleName", toLowerCaseFirstOne(className));
         VelocityContext context = new VelocityContext(map);
 
@@ -121,7 +128,7 @@ public class GeneratorUtils {
 
             try {
                 //添加到zip
-                zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(), config.getString("package"), config.getString("mainModule"))));
+                zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(), _package, _mainModule)));
                 IOUtils.write(sw.toString(), zip, "UTF-8");
                 IOUtils.closeQuietly(sw);
                 zip.closeEntry();

@@ -43,9 +43,11 @@ public class GeneratorRest {
     public void code(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String[] tableNames = new String[]{};
         String tables = request.getParameter("tables");
+        String package_ = request.getParameter("package");
+        String mainModule = request.getParameter("mainModule");
         tableNames = tables.split(",");
 
-        byte[] data = generatorService.generatorCode(tableNames);
+        byte[] data = generatorService.generatorCode(tableNames, package_, mainModule);
 
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"ag-admin-code.zip\"");
