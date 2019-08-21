@@ -2,6 +2,7 @@ package com.github.wxiaoqi.security.common.handler;
 
 import com.github.wxiaoqi.security.common.constant.CommonConstants;
 import com.github.wxiaoqi.security.common.exception.BaseException;
+import com.github.wxiaoqi.security.common.exception.BizException;
 import com.github.wxiaoqi.security.common.exception.auth.ClientTokenException;
 import com.github.wxiaoqi.security.common.exception.auth.UserInvalidException;
 import com.github.wxiaoqi.security.common.exception.auth.UserTokenException;
@@ -40,6 +41,12 @@ public class GlobalExceptionHandler {
     public BaseResponse userInvalidExceptionHandler(HttpServletResponse response, UserInvalidException ex) {
         response.setStatus(200);
         logger.error(ex.getMessage(),ex);
+        return new BaseResponse(ex.getStatus(), ex.getMessage());
+    }
+    @ExceptionHandler(BizException.class)
+    public BaseResponse bizExceptionHandler(HttpServletResponse response, BaseException ex) {
+        logger.error(ex.getMessage(),ex);
+        response.setStatus(200);
         return new BaseResponse(ex.getStatus(), ex.getMessage());
     }
 

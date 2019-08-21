@@ -20,14 +20,14 @@ export function getObj(id) {
   return fetch({
     url: '/api/admin/user/' + id,
     method: 'get'
-  })
+  });
 }
 
 export function delObj(id) {
   return fetch({
     url: '/api/admin/user/' + id,
     method: 'delete'
-  })
+  });
 }
 
 export function putObj(id, obj) {
@@ -35,5 +35,20 @@ export function putObj(id, obj) {
     url: '/api/admin/user/' + id,
     method: 'put',
     data: obj
-  })
+  });
+}
+
+
+export function updatePassword(token, passwordOld, passwordNew, passwordNew2) {
+  const data = {
+    token,
+    passwordOld,
+    passwordNew,
+    passwordNew2
+  };
+  return fetch({
+    url: '/api/admin/user/updatePassword',
+    method: 'post',
+    data
+  });
 }

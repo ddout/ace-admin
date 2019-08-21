@@ -7,6 +7,8 @@ import com.github.wxiaoqi.security.admin.entity.User;
 import com.github.wxiaoqi.security.admin.rpc.service.PermissionService;
 import com.github.wxiaoqi.security.admin.vo.FrontUser;
 import com.github.wxiaoqi.security.admin.vo.MenuTree;
+import com.github.wxiaoqi.security.common.exception.BaseException;
+import com.github.wxiaoqi.security.common.exception.BizException;
 import com.github.wxiaoqi.security.common.rest.BaseController;
 import java.util.List;
 import java.util.Map;
@@ -61,18 +63,25 @@ public class UserController extends BaseController<UserBiz, User> {
 
   @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
   @ResponseBody
-  public ResponseEntity updatePassword(@RequestBody Map<String, String> map)
+  public void updatePassword(@RequestBody Map<String, String> map)
       throws Exception {
     if (null == map.get("token") || "".equals(map.get("token").trim())) {
-      throw new RuntimeException("无效的token");
+      throw new BizException("非法token");
     }
-    if (null == map.get("password") || "".equals(map.get("password").trim())) {
-      throw new RuntimeException("password");
+    if (null == map.get("passwordOld") || "".equals(map.get("passwordOld").trim())) {
+      throw new BizException("非发的旧密码");
+    }
+    if (null == map.get("passwordNew") || "".equals(map.get("passwordNew").trim())) {
+      throw new BizException("非发的新密码");
+    }
+    if (null == map.get("passwordNew2") || "".equals(map.get("passwordNew2").trim())) {
+      throw new BizException("非发的新密码");
     }
     String token = map.get("token").toString();
-    String password = map.get("password").toString();
-    permissionService.updatePassword(token, password);
-    return ResponseEntity.status(200).body(true);
+    String passwordOld = map.get("passwordOld").toString();
+    String passwordNew = map.get("passwordNew").toString();
+    String passwordNew2 = map.get("passwordNew2").toString();
+    permissionService.updatePassword(token, passwordOld, passwordNew,passwordNew2 );
   }
 
 

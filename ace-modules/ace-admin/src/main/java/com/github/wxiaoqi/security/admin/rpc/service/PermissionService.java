@@ -14,6 +14,8 @@ import com.github.wxiaoqi.security.api.vo.user.UserInfo;
 import com.github.wxiaoqi.security.auth.client.jwt.UserAuthUtil;
 import com.github.wxiaoqi.security.common.constant.CommonConstants;
 import com.github.wxiaoqi.security.common.constant.UserConstant;
+import com.github.wxiaoqi.security.common.exception.BaseException;
+import com.github.wxiaoqi.security.common.exception.BizException;
 import com.github.wxiaoqi.security.common.util.TreeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -50,15 +52,21 @@ public class PermissionService {
         return info;
     }
 
-    public void updatePassword(String token, String password) throws Exception {
+    public void updatePassword(String token, String passwordOld, String passwordNew, String passwordNew2) throws Exception {
         String username = userAuthUtil.getInfoFromToken(token).getUniqueName();
         if (username == null) {
-            throw new RuntimeException("非法用户");
+            throw new BizException("非法用户");
         }
         UserInfo user = this.getUserByUsername(username);
+        if (!encoder.matches(passwordOld, user.getPassword())) {
+            throw new BizException("不正确的原密码");
+        }
+        if(!passwordNew.equals(passwordNew2)){
+            throw new BizException("新密码不一致");
+        }
         User entity = new User();
         BeanUtils.copyProperties(user, entity);
-        password = encoder.encode(password);
+        String password = encoder.encode(passwordNew);
         entity.setPassword(password);
         entity.setId(Integer.parseInt(user.getId()));
         userBiz.updateById(entity);

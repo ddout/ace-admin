@@ -19,9 +19,7 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(config => {
   // Do something before request is sent
-  if(store.getters.token
-)
-{
+  if (store.getters.token) {
   config.headers['Authorization'] = getToken(); // 让每个请求携带token--['Authorization']为自定义key 请根据实际情况自行修改
 }
 return config;
@@ -50,8 +48,7 @@ if (response.status === 401 || res.status === 40101) {
   }).then(() => {
     store.dispatch('FedLogOut').then(() => {
       location.reload(); // 为了重新实例化vue-router对象 避免bug
-})
-  ;
+});
 })
   return Promise.reject('error');
 }
@@ -70,15 +67,38 @@ if (res.status === 40001) {
   });
   return Promise.reject('error');
 }
-if (response.status !== 200 && res.status !== 200) {
+// if (response.status !== 200 && res.status !== 200) {
+//   Message({
+//     message: res.message || response.message,
+//     type: 'error',
+//     duration: 5 * 1000
+//   });
+// } else {
+//   console.log(11111)
+//   return response.data;
+// }
+if(response.status === 200){
+  if(res.hasOwnProperty('status')){
+    if(res.status === 200){
+      return response.data;
+    } else {
+      Message({
+        message: res.message,
+        type: 'error',
+        duration: 5 * 1000
+      });
+    }
+  } else {
+    return response.data;
+  }
+} else {
   Message({
-    message: res.message,
+    message: response.message,
     type: 'error',
     duration: 5 * 1000
   });
-} else {
-  return response.data;
 }
+
 },
 error =>
 {
@@ -90,7 +110,6 @@ error =>
   });
   return Promise.reject(error);
 }
-)
-;
+);
 
 export default service;

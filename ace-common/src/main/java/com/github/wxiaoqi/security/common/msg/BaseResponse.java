@@ -4,6 +4,7 @@ package com.github.wxiaoqi.security.common.msg;
  * Created by ace on 2017/8/23.
  */
 public class BaseResponse {
+    public static final int error_status = -1;
     private int status = 200;
     private String message;
 
