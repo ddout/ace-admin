@@ -13,6 +13,7 @@ import com.github.wxiaoqi.security.api.vo.authority.PermissionInfo;
 import com.github.wxiaoqi.security.api.vo.user.UserInfo;
 import com.github.wxiaoqi.security.auth.client.jwt.UserAuthUtil;
 import com.github.wxiaoqi.security.common.constant.CommonConstants;
+import com.github.wxiaoqi.security.common.constant.UserConstant;
 import com.github.wxiaoqi.security.common.util.TreeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -38,7 +39,7 @@ public class PermissionService {
     private ElementBiz elementBiz;
     @Autowired
     private UserAuthUtil userAuthUtil;
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT);
 
 
     public UserInfo getUserByUsername(String username) {
@@ -47,6 +48,20 @@ public class PermissionService {
         BeanUtils.copyProperties(user, info);
         info.setId(user.getId().toString());
         return info;
+    }
+
+    public void updatePassword(String token, String password) throws Exception {
+        String username = userAuthUtil.getInfoFromToken(token).getUniqueName();
+        if (username == null) {
+            throw new RuntimeException("非法用户");
+        }
+        UserInfo user = this.getUserByUsername(username);
+        User entity = new User();
+        BeanUtils.copyProperties(user, entity);
+        password = encoder.encode(password);
+        entity.setPassword(password);
+        entity.setId(Integer.parseInt(user.getId()));
+        userBiz.updateById(entity);
     }
 
     public UserInfo validate(String username,String password){
