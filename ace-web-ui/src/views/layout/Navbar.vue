@@ -70,7 +70,6 @@ export default {
       log: errLogStore.state.errLog,
       dialogFormVisible: false,
       name: this.$store.getters.name,
-      avatar: this.$store.getters.avatar,
       form: {
         passwordOld: undefined,
         passwordNew: undefined,

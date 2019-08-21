@@ -118,7 +118,6 @@ actions: {
       reject(error);
   });
     getMenus(state.token).then(response => {
-      console.log(response)
       commit('SET_PERMISSION_MENUS', response);
   });
   });

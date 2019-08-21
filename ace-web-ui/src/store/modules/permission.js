@@ -62,7 +62,6 @@ const permission = {
             menuDatas[data[i].code] = data[i];
           }
           const accessedRouters = filterAsyncRouter(asyncRouterMap, menus, menuDatas);
-          console.log(accessedRouters);
           commit('SET_ROUTERS', accessedRouters);
           resolve();
         });
