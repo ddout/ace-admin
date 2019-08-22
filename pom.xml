@@ -192,7 +192,7 @@
       <properties>
         <spring.active>dev</spring.active>
         <ace.configure.ip>192.168.11.234</ace.configure.ip>
-        <ace.configure.port>8800</ace.configure.port>
+        <ace.configure.port>8848</ace.configure.port>
         <ace.configure.label>master</ace.configure.label>
       </properties>
       <activation>
@@ -204,7 +204,7 @@
       <properties>
         <spring.active>test</spring.active>
         <ace.configure.ip>192.168.11.234</ace.configure.ip>
-        <ace.configure.port>8800</ace.configure.port>
+        <ace.configure.port>8848</ace.configure.port>
         <ace.configure.label>master</ace.configure.label>
       </properties>
     </profile>
@@ -213,7 +213,7 @@
       <properties>
         <spring.active>prod</spring.active>
         <ace.configure.ip>192.168.11.234</ace.configure.ip>
-        <ace.configure.port>8800</ace.configure.port>
+        <ace.configure.port>8848</ace.configure.port>
         <ace.configure.label>master</ace.configure.label>
       </properties>
     </profile>
