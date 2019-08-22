@@ -35,7 +35,6 @@
     <module>ace-auth</module>
     <module>ace-control</module>
     <module>ace-modules</module>
-    <module>ace-config</module>
   </modules>
   <packaging>pom</packaging>
   <developers>

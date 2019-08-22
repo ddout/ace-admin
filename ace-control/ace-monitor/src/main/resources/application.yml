@@ -1,22 +1,13 @@
-
+spring:
+    application:
+        name: ace-monitor
+    cloud:
+      nacos:
+        discovery:
+          server-addr: "@ace.configure.ip@:@ace.configure.port@"
 server:
   port: 8764 #启动端口
-spring:
-  application:
-    name: ace-monitor
-  profiles:
-    active: "@spring.active@"
-  cloud:
-    nacos:
-      config:
-        server-addr: "@ace.configure.ip@:@ace.configure.port@" #192.168.11.234:8848
-        file-extension: yaml
-        ext-config[0]:
-          data-id: global-server-config.yaml
-          group: common-config
-        ext-config[1]:
-          data-id: ace-monitor-config.yaml
-          group: app-config
+
 
 #
 #eureka:

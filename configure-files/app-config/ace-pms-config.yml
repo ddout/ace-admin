@@ -1,0 +1,54 @@
+server:
+  port: 9000
+
+#redis-cache 相关
+redis:
+  database: 0
+  enable: true
+  host: ${REDIS_HOST:192.168.11.234}
+  port:  ${REDIS_PORT:6379}
+  password: 123456
+  timeout: 2000
+  # 服务或应用名
+  sysName: ace-pms
+  pool:
+    maxActive: 300
+    maxIdle: 100
+    maxWait: 1000
+sample:
+  zipkin:
+    # When enabled=false, traces log to the console. Comment to send to zipkin
+    enabled: false
+
+mybatis:
+  basepackage: com.github.wxiaoqi.security.pms.mapper
+  xmlLocation: classpath:mapper/**/*.xml
+  mapper-locations: "classpath*:mapper/*.xml"
+
+# 配置swagger
+swagger:
+  enabled: true
+  base-package: com.github.wxiaoqi.security.pms
+  title: ace-pms
+  version: 1.0.0.SNAPSHOT
+  description: 管理后端服务
+  contact:
+    name: admin
+
+auth:
+  serviceId: ace-auth
+  user:
+    token-header: Authorization
+  client:
+    id: ace-pms
+    secret: 123456
+    token-header: x-client-token
+
+
+logging:
+  level:
+    com.github.wxiaoqi.security.pms: DEBUG
+
+
+
+

@@ -185,10 +185,9 @@ npm 版本：3.10.10
 |       ace-nacos | 8848 | 阿里注册中心+配置中心 | 0        |
 |     ace-monitor | 8764 | springboot-admin | 0      |
 |                 |      |                  |          |
-|      ace-config | 8800 | 配置中心-服务    | 1        |
-| ace-auth-server | 9777 | 授权中心-服务    | 2        |
-|        ace-gate | 8765 | 统一网关-服务    | 3        |
-|       ace-admin | 8762 | 权限管理-服务    | 4        |
+| ace-auth-server | 9777 | 授权中心-服务    | 1       |
+|        ace-gate | 8765 | 统一网关-服务    | 2       |
+|       ace-admin | 8762 | 权限管理-服务    | 3       |
 |                 |      |                  |          |
 
 
