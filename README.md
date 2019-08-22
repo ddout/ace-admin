@@ -91,18 +91,23 @@ image.png
 后端工程启动
 项目结构
 ace-security
-    
-  ace-modules--------------公共服务模块（基础系统、搜索、OSS）
+  ace-modules--------------业务服务模块（基础系统、搜索、OSS）
 
   ace-auth-----------------服务鉴权中心
 
   ace-gate-----------------网关负载中心
 
   ace-common---------------通用脚手架
-     
-  ace-control--------------运维中心（监控、链路）
 
-  ace-sidebar--------------调用第三方语言服务
+  ace-control--------------运维中心（配置、监控、链路）
+
+  ace-web-ui--------------前端页面
+
+  init-db-base---------数据库初始化脚本
+
+
+
+configure-files----
 
 环境须知!
 mysql一个，redis一个，sentiel一个，nacos注册中心一个
@@ -184,7 +189,9 @@ npm 版本：3.10.10
 |    ace-sentinel | 8088 | 阿里流量控制 (admin/123456)    | 0        |
 |       ace-nacos | 8848 | 阿里注册中心+配置中心 | 0        |
 |     ace-monitor | 8764 | springboot-admin | 0      |
-|                 |      |                  |          |
+| configure-files |      | 应用配置文件。上线时需要在nacos中对应增加配置 | 0 |
+| ace-web-ui | 9527 | web前端,npm run dev启动开发模式 | |
+| | | | |
 | ace-auth-server | 9777 | 授权中心-服务    | 1       |
 |        ace-gate | 8765 | 统一网关-服务    | 2       |
 |       ace-admin | 8762 | 权限管理-服务    | 3       |
@@ -194,6 +201,5 @@ npm 版本：3.10.10
 
 需完善：
 
-1. springcloud-config迁移至 nacos
-2. 代码生成器，增删改查页面生成
+1. 代码生成器，增删改查页面生成
 
