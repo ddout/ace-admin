@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 /**
  * ${comments}
- * 
+ *
  * @author ${author}
  * @email ${email}
  * @date ${datetime}
@@ -18,12 +18,18 @@ import java.math.BigDecimal;
 @Table(name = "${tableName}")
 public class ${className} implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 #foreach ($column in $columns)
 	#if($column.columnName == $pk.columnName)
-    //$column.comments
-    @Id
-    private $column.attrType $column.attrname;
+    	//$column.comments
+		#if($column.attrType == 'String')
+		@Id
+		@GeneratedValue(generator="UUID")
+		private $column.attrType $column.attrname;
+		#else
+		@Id
+		private $column.attrType $column.attrname;
+		#end
 	#else
     //$column.comments
     @Column(name = "$column.columnName")
