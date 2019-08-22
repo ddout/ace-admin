@@ -7,12 +7,25 @@ spring:
   profiles:
     active: "@spring.active@"
   cloud:
-    config:
-      name: ${spring.application.name},global-server-config
-      profile: ${spring.profiles.active}
-      enabled: true
-      label: "@ace.configure.label@"
-      uri: "http://@ace.configure.ip@:@ace.configure.port@"
+    nacos:
+      config:
+        server-addr: "@ace.configure.ip@:@ace.configure.port@" #192.168.11.234:8848
+        file-extension: yaml
+        ext-config[0]:
+          data-id: global-server-config.yaml
+          group: common-config
+        ext-config[1]:
+          data-id: data-source-mysql.yaml
+          group: common-config
+        ext-config[2]:
+          data-id: ace-gateway-config.yaml
+          group: app-config
+#    config:
+#      name: ${spring.application.name},global-server-config
+#      profile: ${spring.profiles.active}
+#      enabled: true
+#      label: "@ace.configure.label@"
+#      uri: "http://@ace.configure.ip@:@ace.configure.port@"
   main:
     allow-bean-definition-overriding: true
 
