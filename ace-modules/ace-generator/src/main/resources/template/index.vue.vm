@@ -9,7 +9,7 @@
 
 #foreach($column in $columns)
   #if($column.columnName == $pk.columnName)
-    <el-table-column align="center" label="${column.columnName}" width="65" v-if="false">
+    <el-table-column align="center" label="${column.columnName}" v-if="false">
       <template scope="scope">
         <span>{{scope.row.${column.attrname}}}</span>
       </template>
