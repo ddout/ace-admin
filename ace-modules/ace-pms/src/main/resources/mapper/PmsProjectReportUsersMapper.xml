@@ -8,6 +8,7 @@
         <result property="id" column="id"/>
         <result property="user" column="user"/>
         <result property="remark" column="remark"/>
+        <result property="projectReportId" column="project_report_id"/>
     </resultMap>
 
 </mapper>

@@ -10,7 +10,7 @@ import javax.persistence.*;
  *
  * @author author
  * @email email
- * @date 2019-08-23 19:05:51
+ * @date 2019-08-23 22:18:30
  */
 @Table(name = "pms_project_report_users")
 public class PmsProjectReportUsers implements Serializable {
@@ -28,6 +28,10 @@ public class PmsProjectReportUsers implements Serializable {
 	    //备注
     @Column(name = "remark")
     private String remark;
+	
+	    //立项报告
+    @Column(name = "project_report_id")
+    private String projectReportId;
 	
 
 	/**
@@ -65,5 +69,17 @@ public class PmsProjectReportUsers implements Serializable {
 	 */
 	public String getRemark() {
 		return remark;
+	}
+	/**
+	 * 设置：立项报告
+	 */
+	public void setProjectReportId(String projectReportId) {
+		this.projectReportId = projectReportId;
+	}
+	/**
+	 * 获取：立项报告
+	 */
+	public String getProjectReportId() {
+		return projectReportId;
 	}
 }

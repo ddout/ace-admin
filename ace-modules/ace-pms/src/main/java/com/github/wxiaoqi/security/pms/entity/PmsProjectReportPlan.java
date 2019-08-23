@@ -6,11 +6,11 @@ import javax.persistence.*;
 
 
 /**
- * 项目立项进度安排
+ * 项目进度安排
  *
  * @author author
  * @email email
- * @date 2019-08-23 19:05:51
+ * @date 2019-08-23 22:18:30
  */
 @Table(name = "pms_project_report_plan")
 public class PmsProjectReportPlan implements Serializable {
@@ -32,6 +32,10 @@ public class PmsProjectReportPlan implements Serializable {
 	    //结束时间
     @Column(name = "end_time")
     private Date endTime;
+	
+	    //立项报告
+    @Column(name = "project_report_id")
+    private String projectReportId;
 	
 
 	/**
@@ -81,5 +85,17 @@ public class PmsProjectReportPlan implements Serializable {
 	 */
 	public Date getEndTime() {
 		return endTime;
+	}
+	/**
+	 * 设置：立项报告
+	 */
+	public void setProjectReportId(String projectReportId) {
+		this.projectReportId = projectReportId;
+	}
+	/**
+	 * 获取：立项报告
+	 */
+	public String getProjectReportId() {
+		return projectReportId;
 	}
 }

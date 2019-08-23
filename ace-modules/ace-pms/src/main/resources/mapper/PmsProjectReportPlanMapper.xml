@@ -9,6 +9,7 @@
         <result property="context" column="context"/>
         <result property="beginTime" column="begin_time"/>
         <result property="endTime" column="end_time"/>
+        <result property="projectReportId" column="project_report_id"/>
     </resultMap>
 
 </mapper>
