@@ -150,19 +150,23 @@ export const asyncRouterMap = [{
     name: '字典管理',
     icon: 'setting',
     authority: 'pms/dict',
-    children: [{
-      path: 'baseDictType',
-      icon: 'fa-user',
-      component: _import('pms/dict/baseDictType/index'),
-      name: '字典类型',
-      authority: 'baseDictType'
-    }, {
-      path: 'baseDict',
-      icon: 'category',
-      component: _import('pms/dict/baseDict/index'),
-      name: '字典管理',
-      authority: 'baseDict'
-    }]
+    children: [
+      //字典值
+      {
+        path: 'baseDict',
+        icon: 'fa-user',
+        component: _import('pms/dict/baseDict/index'),
+        name: '字典值',
+        authority: 'baseDict'
+      },
+      //字典类型
+      {
+        path: 'baseDictType',
+        icon: 'fa-user',
+        component: _import('pms/dict/baseDictType/index'),
+        name: '字典类型',
+        authority: 'baseDictType'
+      }]
   }];
 
 

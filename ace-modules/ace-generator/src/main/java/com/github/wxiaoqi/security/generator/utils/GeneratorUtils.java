@@ -47,7 +47,7 @@ public class GeneratorUtils {
      * 生成代码
      */
     public static void generatorCode(Map<String, String> table,
-                                     List<Map<String, String>> columns, ZipOutputStream zip,String package_,String mainModule) {
+                                     List<Map<String, String>> columns, ZipOutputStream zip,String package_,String sysname, String modulname) {
         //配置信息
         Configuration config = getConfig();
         String _package = config.getString("package");
@@ -55,9 +55,12 @@ public class GeneratorUtils {
         if(null != package_ && !"".equals(package_.trim())){
             _package = package_.trim();
         }
-        if(null != mainModule && !"".equals(mainModule.trim())){
-            _mainModule = mainModule.trim();
+
+        if( StringUtils.isNotEmpty(sysname) && StringUtils.isNotEmpty(modulname)){
+            _mainModule = sysname + "/" + modulname;
         }
+
+
         //表信息
         TableEntity tableEntity = new TableEntity();
         tableEntity.setTableName(table.get("tableName"));
@@ -75,35 +78,28 @@ public class GeneratorUtils {
             columnEntity.setDataType(column.get("dataType"));
             columnEntity.setComments(column.get("columnComment"));
             columnEntity.setExtra(column.get("extra"));
-
             //列名转换成Java属性名
             String attrName = columnToJava(columnEntity.getColumnName());
             columnEntity.setAttrName(attrName);
             columnEntity.setAttrname(StringUtils.uncapitalize(attrName));
-
             //列的数据类型，转换成Java类型
             String attrType = config.getString(columnEntity.getDataType(), "unknowType");
             columnEntity.setAttrType(attrType);
-
             //是否主键
             if ("PRI".equalsIgnoreCase(column.get("columnKey")) && tableEntity.getPk() == null) {
                 tableEntity.setPk(columnEntity);
             }
-
             columsList.add(columnEntity);
         }
         tableEntity.setColumns(columsList);
-
         //没主键，则第一个字段为主键
         if (tableEntity.getPk() == null) {
             tableEntity.setPk(tableEntity.getColumns().get(0));
         }
-
         //设置velocity资源加载器
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
-
         //封装模板数据
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", tableEntity.getTableName());
@@ -119,8 +115,8 @@ public class GeneratorUtils {
         map.put("datetime", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
         map.put("moduleName", _mainModule);
         map.put("secondModuleName", toLowerCaseFirstOne(className));
+        map.put("controllerFix", modulname + "/" + toLowerCaseFirstOne(className));
         VelocityContext context = new VelocityContext(map);
-
         //获取模板列表
         List<String> templates = getTemplates();
         for (String template : templates) {
@@ -128,7 +124,6 @@ public class GeneratorUtils {
             StringWriter sw = new StringWriter();
             Template tpl = Velocity.getTemplate(template, "UTF-8");
             tpl.merge(context, sw);
-
             try {
                 //添加到zip
                 zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(), _package, _mainModule)));

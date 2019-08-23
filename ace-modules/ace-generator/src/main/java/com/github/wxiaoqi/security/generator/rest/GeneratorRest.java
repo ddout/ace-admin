@@ -44,10 +44,11 @@ public class GeneratorRest {
         String[] tableNames = new String[]{};
         String tables = request.getParameter("tables");
         String package_ = request.getParameter("package");
-        String mainModule = request.getParameter("mainModule");
+        String sysname = request.getParameter("sysname");
+        String modulname = request.getParameter("modulname");
         tableNames = tables.split(",");
 
-        byte[] data = generatorService.generatorCode(tableNames, package_, mainModule);
+        byte[] data = generatorService.generatorCode(tableNames, package_, sysname, modulname);
 
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"ag-admin-code.zip\"");

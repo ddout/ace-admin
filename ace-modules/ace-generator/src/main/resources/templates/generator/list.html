@@ -14,6 +14,25 @@
 <body>
 <div class="admin-main">
     <form class="layui-form layui-form-pane" onsubmit="javascript:return false;">
+
+        <div  class="layui-form-item" style="margin-bottom:5px;">
+            <label class="layui-form-label">JAVA包名</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="package">
+            </div>
+            <label class="layui-form-label">系统名</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="sysname">
+            </div>
+            <label class="layui-form-label">前端模块名</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="modulname">
+            </div>
+            <button class="layui-btn" id="btn_generate">
+                <i class="layui-icon">&#xe654;</i>生成代码
+            </button>
+        </div>
+        <hr>
         <div class="layui-form-item" style="margin-bottom:0px;">
             <label class="layui-form-label">表名</label>
             <div class="layui-input-inline">
@@ -23,19 +42,6 @@
                 查询
             </button>
 
-        </div>
-        <div  class="layui-form-item" style="margin-bottom:5px;">
-            <label class="layui-form-label">JAVA包名</label>
-            <div class="layui-input-inline">
-                <input type="text" class="layui-input" id="package">
-            </div>
-            <label class="layui-form-label">前端前缀</label>
-            <div class="layui-input-inline">
-                <input type="text" class="layui-input" id="mainModule">
-            </div>
-            <button class="layui-btn" id="btn_generate">
-                <i class="layui-icon">&#xe654;</i>生成代码
-            </button>
         </div>
     </form>
 

@@ -46,7 +46,7 @@ public class BaseController<Biz extends BaseBiz, Entity> {
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   @ResponseBody
-  public ObjectRestResponse<Entity> get(@PathVariable int id) {
+  public ObjectRestResponse<Entity> get(@PathVariable String id) {
     ObjectRestResponse<Entity> entityObjectRestResponse = new ObjectRestResponse<>();
     Object o = baseBiz.selectById(id);
     entityObjectRestResponse.data((Entity) o);
@@ -67,7 +67,7 @@ public class BaseController<Biz extends BaseBiz, Entity> {
 
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   @ResponseBody
-  public ObjectRestResponse<Entity> remove(@PathVariable int id) {
+  public ObjectRestResponse<Entity> remove(@PathVariable String id) {
     baseBiz.deleteById(id);
     return new ObjectRestResponse<Entity>();
   }

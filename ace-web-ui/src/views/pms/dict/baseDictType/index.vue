@@ -7,28 +7,26 @@
     </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-      <el-table-column align="center" label="id"  v-if="false" >
-        <template scope="scope" >
-          <span>{{scope.row.id}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column  align="left" label="名称">
+      <el-table-column align="center" label="id" v-if="false">
+      <template scope="scope">
+        <span>{{scope.row.id}}</span>
+      </template>
+    </el-table-column>
+        <el-table-column  align="center" label="名称">
+      <template scope="scope">
+        <span>{{scope.row.name}}</span>
+      </template>
+    </el-table-column>
+        <el-table-column fixed="right" align="center" label="操作" width="150">
         <template scope="scope">
-          <span>{{scope.row.name}}</span>
+            <el-button v-if="baseDictTypeManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
+            </el-button>
+            <el-button v-if="baseDictTypeManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
+            </el-button>
         </template>
       </el-table-column>
-
-      <el-table-column fixed="right" align="center" label="操作" width="150">
-        <template scope="scope">
-          <el-button v-if="baseDictTypeManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
-          </el-button>
-          <el-button v-if="baseDictTypeManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
-          </el-button>
-        </template>
-      </el-table-column>
-
     </el-table>
+
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
     </div>
@@ -61,7 +59,8 @@
     data() {
       return {
         form: {
-        name : undefined          },
+        name : undefined
+        },
         rules: {
     name: [
   {

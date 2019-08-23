@@ -207,7 +207,6 @@ ${column.attrname}: [
         set[formName].validate(valid => {
         if (valid) {
         this.dialogFormVisible = false;
-        this.form.password = undefined;
         putObj(this.form.id, this.form).then(() => {
         this.dialogFormVisible = false;
         this.getList();
@@ -225,11 +224,12 @@ ${column.attrname}: [
       },
       resetTemp() {
         this.form = {
-          username: undefined,
-          name: undefined,
-          sex: '男',
-          password: undefined,
-          description: undefined
+        #foreach($column in $columns)
+          #if($column.columnName != $pk.columnName)
+            //$column.comments
+              ${column.attrname} : undefined#if($velocityCount != $columns.size()),#end
+          #end
+        #end
         };
       }
     }

@@ -43,7 +43,7 @@ public class GeneratorService {
 		return generatorMapper.queryColumns(tableName);
 	}
 
-	public byte[] generatorCode(String[] tableNames, String package_,String mainModule) {
+	public byte[] generatorCode(String[] tableNames, String package_,String sysname, String modulname) {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		ZipOutputStream zip = new ZipOutputStream(outputStream);
 
@@ -53,7 +53,7 @@ public class GeneratorService {
 			//查询列信息
 			List<Map<String, String>> columns = queryColumns(tableName);
 			//生成代码
-			GeneratorUtils.generatorCode(table, columns, zip,package_, mainModule);
+			GeneratorUtils.generatorCode(table, columns, zip,package_, sysname, modulname);
 		}
 		IOUtils.closeQuietly(zip);
 		return outputStream.toByteArray();
