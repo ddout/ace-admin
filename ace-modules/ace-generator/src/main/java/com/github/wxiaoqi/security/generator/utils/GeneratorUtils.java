@@ -37,6 +37,9 @@ public class GeneratorUtils {
         templates.add("template/entity.java.vm");
         templates.add("template/mapper.java.vm");
         templates.add("template/controller.java.vm");
+        //
+        templates.add("template/auth.sql.vm");
+        templates.add("template/router.js.vm");
         return templates;
     }
 
@@ -199,6 +202,15 @@ public class GeneratorUtils {
         }
         if (template.contains("mapper.xml.vm")) {
             return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + className + "Mapper.xml";
+        }
+        //
+        if (template.contains("auth.sql.vm")) {
+//            return "sql" + File.separator + "auth.sql";
+            return "sql" + File.separator +  className + "Auth.sql";
+
+        }
+        if (template.contains("router.js.vm")) {
+            return frontPath + "router" + File.separator + moduleName + File.separator + toLowerCaseFirstOne(className) + File.separator + "index.js";
         }
 
         return null;

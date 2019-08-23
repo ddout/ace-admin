@@ -143,23 +143,23 @@ export const asyncRouterMap = [{
   }]
 },
   //
-  //
+  //pms
   {
-    path: '/pmsDict',
+    path: '/pms/dict',
     component: Layout,
     name: '字典管理',
     icon: 'setting',
-    authority: 'pmsDict',
+    authority: 'pms/dict',
     children: [{
       path: 'baseDictType',
       icon: 'fa-user',
-      component: _import('dict/baseDictType/index'),
+      component: _import('pms/dict/baseDictType/index'),
       name: '字典类型',
       authority: 'baseDictType'
     }, {
       path: 'baseDict',
       icon: 'category',
-      component: _import('dict/baseDict/index'),
+      component: _import('pms/dict/baseDict/index'),
       name: '字典管理',
       authority: 'baseDict'
     }]

@@ -1,0 +1,8 @@
+//${comments}
+{
+  path: '${secondModuleName}',
+  icon: 'fa-user',
+  component: _import('${moduleName}/${secondModuleName}/index'),
+  name: '${comments}',
+  authority: '${secondModuleName}'
+}

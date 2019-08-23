@@ -6,8 +6,8 @@ import javax.persistence.*;
 
 
 /**
- * 
- * 
+ *
+ *
  * @author author
  * @email email
  * @date 2019-08-21 19:15:00
@@ -15,15 +15,16 @@ import javax.persistence.*;
 @Table(name = "base_dict_type")
 public class BaseDictType implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	    //
     @Id
+		@GeneratedValue(generator="UUID")
     private String id;
-	
+
 	    //
     @Column(name = "name")
     private String name;
-	
+
 
 	/**
 	 * 设置：

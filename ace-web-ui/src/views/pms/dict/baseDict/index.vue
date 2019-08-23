@@ -12,17 +12,17 @@
         <span>{{scope.row.id}}</span>
       </template>
     </el-table-column>
-        <el-table-column width="200px" align="center" label="">
+        <el-table-column width="200px" align="center" label="名称">
       <template scope="scope">
         <span>{{scope.row.name}}</span>
       </template>
     </el-table-column>
-        <el-table-column width="200px" align="center" label="">
+        <el-table-column width="200px" align="center" label="值">
       <template scope="scope">
         <span>{{scope.row.value}}</span>
       </template>
     </el-table-column>
-        <el-table-column width="200px" align="center" label="">
+        <el-table-column width="200px" align="center" label="类型ID">
       <template scope="scope">
         <span>{{scope.row.typeId}}</span>
       </template>
@@ -39,14 +39,14 @@
     </div>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
-        <el-form-item label="" prop="name">
-      <el-input v-model="form.name" placeholder="请输入"></el-input>
+        <el-form-item label="名称" prop="name">
+      <el-input v-model="form.name" placeholder="请输入名称"></el-input>
     </el-form-item>
-        <el-form-item label="" prop="value">
-      <el-input v-model="form.value" placeholder="请输入"></el-input>
+        <el-form-item label="值" prop="value">
+      <el-input v-model="form.value" placeholder="请输入值"></el-input>
     </el-form-item>
-        <el-form-item label="" prop="typeId">
-      <el-input v-model="form.typeId" placeholder="请输入"></el-input>
+        <el-form-item label="类型ID" prop="typeId">
+      <el-input v-model="form.typeId" placeholder="请输入类型ID"></el-input>
     </el-form-item>
         </el-form>
       <div slot="footer" class="dialog-footer">
@@ -65,7 +65,7 @@
       getObj,
       delObj,
       putObj
-  } from 'api/dict/baseDict/index';
+  } from 'api/pms/dict/baseDict/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'baseDict',
@@ -77,7 +77,7 @@
     name: [
   {
     required: true,
-    message: '请输入',
+    message: '请输入名称',
     trigger: 'blur'
   },
   {
@@ -89,7 +89,7 @@
 ],   value: [
   {
     required: true,
-    message: '请输入',
+    message: '请输入值',
     trigger: 'blur'
   },
   {
@@ -101,7 +101,7 @@
 ],   typeId: [
   {
     required: true,
-    message: '请输入',
+    message: '请输入类型ID',
     trigger: 'blur'
   },
   {
