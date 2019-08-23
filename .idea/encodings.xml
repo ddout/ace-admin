@@ -7,6 +7,7 @@
     <file url="file://$PROJECT_DIR$/ace-auth/ace-auth-common" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ace-auth/ace-auth-server" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ace-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ace-config" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ace-control" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ace-control/ace-monitor" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ace-gate" charset="UTF-8" />
@@ -14,6 +15,7 @@
     <file url="file://$PROJECT_DIR$/ace-modules/ace-admin" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ace-modules/ace-generator" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ace-modules/ace-interface" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ace-modules/ace-pms" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ace-modules/ace-tool" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ace-sidecar" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ace-sidecar/ace-sidecar-client-demo" charset="UTF-8" />
