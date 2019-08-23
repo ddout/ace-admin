@@ -13,7 +13,7 @@ VALUES ('${secondModuleName}Manager:view', 'uri', '查看', '/${moduleName}/${se
 INSERT INTO base_element (code, type, name, uri, menu_id, parent_id, path, method)
 VALUES ('${secondModuleName}Manager:btn_add', 'button', '新增', '/${moduleName}/${secondModuleName}',(select id from base_menu where parent_id={&替换为所属模块ID&} and code='${secondModuleName}'), null, null, 'POST');
 INSERT INTO base_element (code, type, name, uri, menu_id, parent_id, path, method)
-VALUES ('${secondModuleName}eManager:btn_edit', 'button', '编辑', '/${moduleName}/${secondModuleName}/{*}',(select id from base_menu where parent_id={&替换为所属模块ID&} and code='${secondModuleName}'), null, null, 'PUT');
+VALUES ('${secondModuleName}Manager:btn_edit', 'button', '编辑', '/${moduleName}/${secondModuleName}/{*}',(select id from base_menu where parent_id={&替换为所属模块ID&} and code='${secondModuleName}'), null, null, 'PUT');
 INSERT INTO base_element (code, type, name, uri, menu_id, parent_id, path, method)
 VALUES ('${secondModuleName}Manager:btn_del', 'button', '删除', '/${moduleName}/${secondModuleName}/{*}',(select id from base_menu where parent_id={&替换为所属模块ID&} and code='${secondModuleName}'), null, null, 'DELETE');
 
