@@ -11,7 +11,7 @@ import com.github.wxiaoqi.security.common.biz.BaseBiz;
  *
  * @author author
  * @email email
- * @date 2019-08-23 10:08:55
+ * @date 2019-08-23 19:35:30
  */
 @Service
 public class BaseDictBiz extends BaseBiz<BaseDictMapper,BaseDict> {

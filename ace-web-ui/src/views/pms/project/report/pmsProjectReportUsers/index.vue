@@ -3,30 +3,30 @@
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名或账户" v-model="listQuery.projectName"> </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" v-if="${secondModuleName}Manager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
+      <el-button class="filter-item" v-if="pmsProjectReportUsersManager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
     </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-#foreach($column in $columns)
-  #if($column.columnName == $pk.columnName)
-    <el-table-column align="center" label="${column.columnName}" v-if="false">
+      <el-table-column align="center" label="id" v-if="false">
       <template scope="scope">
-        <span>{{scope.row.${column.attrname}}}</span>
+        <span>{{scope.row.id}}</span>
       </template>
     </el-table-column>
-  #else
-    <el-table-column  align="center" label="${column.comments}">
+        <el-table-column  align="center" label="研发人员">
       <template scope="scope">
-        <span>{{scope.row.${column.attrname}}}</span>
+        <span>{{scope.row.user}}</span>
       </template>
     </el-table-column>
-  #end
-#end
-      <el-table-column fixed="right" align="center" label="操作" width="150">
+        <el-table-column  align="center" label="备注">
+      <template scope="scope">
+        <span>{{scope.row.remark}}</span>
+      </template>
+    </el-table-column>
+        <el-table-column fixed="right" align="center" label="操作" width="150">
         <template scope="scope">
-            <el-button v-if="${secondModuleName}Manager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
+            <el-button v-if="pmsProjectReportUsersManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
             </el-button>
-            <el-button v-if="${secondModuleName}Manager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
+            <el-button v-if="pmsProjectReportUsersManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
             </el-button>
         </template>
       </el-table-column>
@@ -37,14 +37,13 @@
     </div>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
-#foreach($column in $columns)
-  #if($column.columnName != $pk.columnName)
-    <el-form-item label="${column.comments}" prop="${column.attrname}">
-      <el-input v-model="form.${column.attrname}" placeholder="请输入${column.comments}"></el-input>
+        <el-form-item label="研发人员" prop="user">
+      <el-input v-model="form.user" placeholder="请输入研发人员"></el-input>
     </el-form-item>
-  #end
-#end
-      </el-form>
+        <el-form-item label="备注" prop="remark">
+      <el-input v-model="form.remark" placeholder="请输入备注"></el-input>
+    </el-form-item>
+        </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel('form')">取 消</el-button>
         <el-button v-if="dialogStatus=='create'" type="primary" @click="create('form')">确 定</el-button>
@@ -61,26 +60,19 @@
       getObj,
       delObj,
       putObj
-  } from 'api/${moduleName}/${secondModuleName}/index';
+  } from 'api/pms/project/report/pmsProjectReportUsers/index';
   import { mapGetters } from 'vuex';
   export default {
-    name: '${secondModuleName}',
+    name: 'pmsProjectReportUsers',
     data() {
       return {
         form: {
-#foreach($column in $columns)
-  #if($column.columnName != $pk.columnName)
-    ${column.attrname} : undefined#if($velocityCount != $columns.size()),#end
-  #end
-#end
-        },
+        user : undefined,        remark : undefined          },
         rules: {
-#foreach($column in $columns)
-  #if($column.columnName != $pk.columnName)
-${column.attrname}: [
+    user: [
   {
     required: true,
-    message: '请输入${column.comments}',
+    message: '请输入研发人员',
     trigger: 'blur'
   },
   {
@@ -89,9 +81,19 @@ ${column.attrname}: [
     message: '长度在 3 到 20 个字符',
     trigger: 'blur'
   }
-]#if($velocityCount != $columns.size()), #end#end
-#end
-        },
+],   remark: [
+  {
+    required: true,
+    message: '请输入备注',
+    trigger: 'blur'
+  },
+  {
+    min: 3,
+    max: 20,
+    message: '长度在 3 到 20 个字符',
+    trigger: 'blur'
+  }
+]        },
         list: null,
         total: null,
         listLoading: true,
@@ -102,9 +104,9 @@ ${column.attrname}: [
         },
         dialogFormVisible: false,
         dialogStatus: '',
-        ${secondModuleName}Manager_btn_edit: false,
-        ${secondModuleName}Manager_btn_del: false,
-        ${secondModuleName}Manager_btn_add: false,
+        pmsProjectReportUsersManager_btn_edit: false,
+        pmsProjectReportUsersManager_btn_del: false,
+        pmsProjectReportUsersManager_btn_add: false,
         textMap: {
           update: '编辑',
           create: '创建'
@@ -114,9 +116,9 @@ ${column.attrname}: [
     },
     created() {
       this.getList();
-      this.${secondModuleName}Manager_btn_edit = this.elements['${secondModuleName}Manager:btn_edit'];
-      this.${secondModuleName}Manager_btn_del = this.elements['${secondModuleName}Manager:btn_del'];
-      this.${secondModuleName}Manager_btn_add = this.elements['${secondModuleName}Manager:btn_add'];
+      this.pmsProjectReportUsersManager_btn_edit = this.elements['pmsProjectReportUsersManager:btn_edit'];
+      this.pmsProjectReportUsersManager_btn_del = this.elements['pmsProjectReportUsersManager:btn_del'];
+      this.pmsProjectReportUsersManager_btn_add = this.elements['pmsProjectReportUsersManager:btn_add'];
     },
     computed: {
       ...mapGetters([
@@ -224,13 +226,9 @@ ${column.attrname}: [
       },
       resetTemp() {
         this.form = {
-        #foreach($column in $columns)
-          #if($column.columnName != $pk.columnName)
-            //$column.comments
-              ${column.attrname} : undefined#if($velocityCount != $columns.size()),#end
-          #end
-        #end
-        };
+                                                //研发人员
+              user : undefined,                                        //备注
+              remark : undefined                          };
       }
     }
   }

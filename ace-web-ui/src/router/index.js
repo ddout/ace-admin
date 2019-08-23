@@ -157,5 +157,44 @@ export const asyncRouterMap = [{
             name: '字典配置',
             authority: 'baseDictManager'
         }]
+    },
+    //项目立项管理
+    {
+      path: '/pms/project/report',
+      component: Layout,
+      name: '项目立项管理',
+      icon: 'setting',
+      authority: 'pms/project/report',
+      children: [
+        //项目立项报告
+        {
+          path: 'pmsProjectReport',
+          icon: 'fa-user',
+          component: _import('pms/project/report/pmsProjectReport/index'),
+          name: '项目立项报告',
+          authority: 'pmsProjectReport'
+        },
+        //项目立项进度安排
+        {
+          path: 'pmsProjectReportPlan',
+          icon: 'fa-user',
+          component: _import('pms/project/report/pmsProjectReportPlan/index'),
+          name: '项目立项进度安排',
+          authority: 'pmsProjectReportPlan'
+        },
+        //项目组成员
+        {
+          path: 'pmsProjectReportUsers',
+          icon: 'fa-user',
+          component: _import('pms/project/report/pmsProjectReportUsers/index'),
+          name: '项目组成员',
+          authority: 'pmsProjectReportUsers'
+        }
+
+
+
+      ]
+
     }
+
 ];

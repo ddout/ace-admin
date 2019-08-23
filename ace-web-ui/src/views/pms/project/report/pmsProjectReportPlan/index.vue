@@ -3,30 +3,35 @@
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名或账户" v-model="listQuery.projectName"> </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" v-if="${secondModuleName}Manager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
+      <el-button class="filter-item" v-if="pmsProjectReportPlanManager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
     </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-#foreach($column in $columns)
-  #if($column.columnName == $pk.columnName)
-    <el-table-column align="center" label="${column.columnName}" v-if="false">
+      <el-table-column align="center" label="id" v-if="false">
       <template scope="scope">
-        <span>{{scope.row.${column.attrname}}}</span>
+        <span>{{scope.row.id}}</span>
       </template>
     </el-table-column>
-  #else
-    <el-table-column  align="center" label="${column.comments}">
+        <el-table-column  align="center" label="工作内容">
       <template scope="scope">
-        <span>{{scope.row.${column.attrname}}}</span>
+        <span>{{scope.row.context}}</span>
       </template>
     </el-table-column>
-  #end
-#end
-      <el-table-column fixed="right" align="center" label="操作" width="150">
+        <el-table-column  align="center" label="开始时间">
+      <template scope="scope">
+        <span>{{scope.row.beginTime}}</span>
+      </template>
+    </el-table-column>
+        <el-table-column  align="center" label="结束时间">
+      <template scope="scope">
+        <span>{{scope.row.endTime}}</span>
+      </template>
+    </el-table-column>
+        <el-table-column fixed="right" align="center" label="操作" width="150">
         <template scope="scope">
-            <el-button v-if="${secondModuleName}Manager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
+            <el-button v-if="pmsProjectReportPlanManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
             </el-button>
-            <el-button v-if="${secondModuleName}Manager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
+            <el-button v-if="pmsProjectReportPlanManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
             </el-button>
         </template>
       </el-table-column>
@@ -37,14 +42,16 @@
     </div>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
-#foreach($column in $columns)
-  #if($column.columnName != $pk.columnName)
-    <el-form-item label="${column.comments}" prop="${column.attrname}">
-      <el-input v-model="form.${column.attrname}" placeholder="请输入${column.comments}"></el-input>
+        <el-form-item label="工作内容" prop="context">
+      <el-input v-model="form.context" placeholder="请输入工作内容"></el-input>
     </el-form-item>
-  #end
-#end
-      </el-form>
+        <el-form-item label="开始时间" prop="beginTime">
+      <el-input v-model="form.beginTime" placeholder="请输入开始时间"></el-input>
+    </el-form-item>
+        <el-form-item label="结束时间" prop="endTime">
+      <el-input v-model="form.endTime" placeholder="请输入结束时间"></el-input>
+    </el-form-item>
+        </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel('form')">取 消</el-button>
         <el-button v-if="dialogStatus=='create'" type="primary" @click="create('form')">确 定</el-button>
@@ -61,26 +68,19 @@
       getObj,
       delObj,
       putObj
-  } from 'api/${moduleName}/${secondModuleName}/index';
+  } from 'api/pms/project/report/pmsProjectReportPlan/index';
   import { mapGetters } from 'vuex';
   export default {
-    name: '${secondModuleName}',
+    name: 'pmsProjectReportPlan',
     data() {
       return {
         form: {
-#foreach($column in $columns)
-  #if($column.columnName != $pk.columnName)
-    ${column.attrname} : undefined#if($velocityCount != $columns.size()),#end
-  #end
-#end
-        },
+        context : undefined,        beginTime : undefined,        endTime : undefined          },
         rules: {
-#foreach($column in $columns)
-  #if($column.columnName != $pk.columnName)
-${column.attrname}: [
+    context: [
   {
     required: true,
-    message: '请输入${column.comments}',
+    message: '请输入工作内容',
     trigger: 'blur'
   },
   {
@@ -89,9 +89,31 @@ ${column.attrname}: [
     message: '长度在 3 到 20 个字符',
     trigger: 'blur'
   }
-]#if($velocityCount != $columns.size()), #end#end
-#end
-        },
+],   beginTime: [
+  {
+    required: true,
+    message: '请输入开始时间',
+    trigger: 'blur'
+  },
+  {
+    min: 3,
+    max: 20,
+    message: '长度在 3 到 20 个字符',
+    trigger: 'blur'
+  }
+],   endTime: [
+  {
+    required: true,
+    message: '请输入结束时间',
+    trigger: 'blur'
+  },
+  {
+    min: 3,
+    max: 20,
+    message: '长度在 3 到 20 个字符',
+    trigger: 'blur'
+  }
+]        },
         list: null,
         total: null,
         listLoading: true,
@@ -102,9 +124,9 @@ ${column.attrname}: [
         },
         dialogFormVisible: false,
         dialogStatus: '',
-        ${secondModuleName}Manager_btn_edit: false,
-        ${secondModuleName}Manager_btn_del: false,
-        ${secondModuleName}Manager_btn_add: false,
+        pmsProjectReportPlanManager_btn_edit: false,
+        pmsProjectReportPlanManager_btn_del: false,
+        pmsProjectReportPlanManager_btn_add: false,
         textMap: {
           update: '编辑',
           create: '创建'
@@ -114,9 +136,9 @@ ${column.attrname}: [
     },
     created() {
       this.getList();
-      this.${secondModuleName}Manager_btn_edit = this.elements['${secondModuleName}Manager:btn_edit'];
-      this.${secondModuleName}Manager_btn_del = this.elements['${secondModuleName}Manager:btn_del'];
-      this.${secondModuleName}Manager_btn_add = this.elements['${secondModuleName}Manager:btn_add'];
+      this.pmsProjectReportPlanManager_btn_edit = this.elements['pmsProjectReportPlanManager:btn_edit'];
+      this.pmsProjectReportPlanManager_btn_del = this.elements['pmsProjectReportPlanManager:btn_del'];
+      this.pmsProjectReportPlanManager_btn_add = this.elements['pmsProjectReportPlanManager:btn_add'];
     },
     computed: {
       ...mapGetters([
@@ -224,13 +246,10 @@ ${column.attrname}: [
       },
       resetTemp() {
         this.form = {
-        #foreach($column in $columns)
-          #if($column.columnName != $pk.columnName)
-            //$column.comments
-              ${column.attrname} : undefined#if($velocityCount != $columns.size()),#end
-          #end
-        #end
-        };
+                                                //工作内容
+              context : undefined,                                        //开始时间
+              beginTime : undefined,                                        //结束时间
+              endTime : undefined                          };
       }
     }
   }

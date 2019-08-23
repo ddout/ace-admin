@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.github.wxiaoqi.security.pms.mapper.PmsProjectReportMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.github.wxiaoqi.security.pms.entity.PmsProjectReport" id="pmsProjectReportMap">
+        <result property="id" column="id"/>
+        <result property="projectCode" column="project_code"/>
+        <result property="projectName" column="project_name"/>
+        <result property="projectType" column="project_type"/>
+        <result property="customer" column="customer"/>
+        <result property="sponsor" column="sponsor"/>
+        <result property="projectManager" column="project_manager"/>
+        <result property="devManager" column="dev_manager"/>
+        <result property="projectReportTime" column="project_report_time"/>
+        <result property="salesContract" column="sales_contract"/>
+        <result property="projectBeginTime" column="project_begin_time"/>
+        <result property="projectEndTime" column="project_end_time"/>
+        <result property="projectContext" column="project_context"/>
+        <result property="devContext" column="dev_context"/>
+        <result property="keyTechnology" column="key_technology"/>
+        <result property="innovation" column="innovation"/>
+        <result property="projectBeginPeriod" column="project_begin_period"/>
+        <result property="projectEndPeriod" column="project_end_period"/>
+        <result property="humanBudget" column="human_budget"/>
+        <result property="directInputBudget" column="direct_input_budget"/>
+        <result property="designBudget" column="design_budget"/>
+        <result property="otherBudget" column="other_budget"/>
+        <result property="peojectReportConclusion" column="peoject_report_conclusion"/>
+    </resultMap>
+
+</mapper>
