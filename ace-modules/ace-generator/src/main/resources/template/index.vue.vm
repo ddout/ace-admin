@@ -14,7 +14,7 @@
         <span>{{scope.row.${column.attrname}}}</span>
       </template>
     </el-table-column>
-  #else
+  #elseif($column.dataType != 'text')
     <el-table-column  align="center" label="${column.comments}">
       <template scope="scope">
         <span>{{scope.row.${column.attrname}}}</span>
@@ -35,13 +35,51 @@
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
     </div>
+
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form :model="form" :rules="rules" ref="form" label-width="100px">
+      <el-form :model="form" :rules="rules" ref="form" label-width="145px" top="2vh" :close-on-click-modal="false">
+
 #foreach($column in $columns)
   #if($column.columnName != $pk.columnName)
-    <el-form-item label="${column.comments}" prop="${column.attrname}">
-      <el-input v-model="form.${column.attrname}" placeholder="请输入${column.comments}"></el-input>
-    </el-form-item>
+      #if($column.dataType == 'date')
+          <el-form-item label="${column.comments}" prop="projectReportTime">
+            <el-date-picker
+                v-model="form.${column.attrname}"
+                align="right"
+                type="date"
+                placeholder="请输入${column.comments}"
+                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd">
+            </el-date-picker>
+          </el-form-item>
+      #elseif($column.dataType == 'datetime' || $column.dataType == 'timestamp')
+          <el-form-item label="${column.comments}" prop="projectReportTime">
+            <el-date-picker
+                v-model="form.${column.attrname}"
+                align="right"
+                type="datetime"
+                placeholder="请输入${column.comments}"
+                format="yyyy-MM-dd HH:mm:ss"
+                value-format="yyyy-MM-dd HH:mm:ss">
+            </el-date-picker>
+          </el-form-item>
+      #elseif($column.dataType == 'text')
+        <el-form-item label="${column.comments}" prop="${column.attrname}">
+          <el-input type="textarea" v-model="form.${column.attrname}" placeholder="请输入${column.comments}" maxlength="30000" show-word-limit></el-input>
+        </el-form-item>
+      #elseif($column.attrType == 'Integer' || $column.dataType == 'Long')
+        <el-form-item label="${column.comments}" prop="${column.attrname}">
+          <el-input-number v-model="form.${column.attrname}" controls-position="right" :step="100" :min="0"></el-input-number>
+        </el-form-item>
+      #elseif($column.attrType == 'Float' || $column.attrType == 'Double' || $column.attrType == 'BigDecimal')
+        <el-form-item label="${column.comments}" prop="${column.attrname}">
+          <el-input-number v-model="form.${column.attrname}" controls-position="right" :step="100" :min="0"></el-input-number>
+        </el-form-item>
+      #else
+        <el-form-item label="${column.comments}" prop="${column.attrname}">
+          <el-input v-model="form.${column.attrname}" placeholder="请输入${column.comments}"></el-input>
+        </el-form-item>
+      #end
   #end
 #end
       </el-form>
