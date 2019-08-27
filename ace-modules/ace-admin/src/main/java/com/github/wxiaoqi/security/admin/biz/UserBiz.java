@@ -48,6 +48,7 @@ public class UserBiz extends BaseBiz<UserMapper,User> {
     public void updateSelectiveById(User entity) {
         User old = super.selectById(entity.getId());
         entity.setPassword(old.getPassword());
+        entity.setUsername(old.getUsername());
         super.updateSelectiveById(entity);
     }
 
