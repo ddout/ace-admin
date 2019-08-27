@@ -46,6 +46,8 @@ public class UserBiz extends BaseBiz<UserMapper,User> {
     @Override
     @CacheClear(pre="user{1.username}")
     public void updateSelectiveById(User entity) {
+        User old = super.selectById(entity.getId());
+        entity.setPassword(old.getPassword());
         super.updateSelectiveById(entity);
     }
 
