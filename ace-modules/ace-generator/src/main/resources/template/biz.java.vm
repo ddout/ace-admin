@@ -15,4 +15,24 @@ import com.github.wxiaoqi.security.common.biz.BaseBiz;
  */
 @Service
 public class ${className}Biz extends BaseBiz<${className}Mapper,${className}> {
+
+  @Override
+  private ${className}Mapper bizMapper;
+
+  @Override
+  protected void baseXInsertHandler(${className} entity) {
+  }
+
+  @Override
+  protected void baseXDeleteByIdHandler(Object id) {
+  }
+
+  @Override
+  protected void baseXUpdateSelectiveByIdHandler(${className} entity) {
+  }
+
+  @Override
+  protected void BaseXSelectByQueryHandler(Example example) {
+  }
+
 }
