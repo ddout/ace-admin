@@ -87,6 +87,7 @@ if(response.status === 200){
         type: 'error',
         duration: 5 * 1000
       });
+      return Promise.reject('error');
     }
   } else {
     return response.data;

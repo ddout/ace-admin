@@ -30,4 +30,12 @@
         <result property="peojectReportConclusion" column="peoject_report_conclusion"/>
     </resultMap>
 
+  <select id="checkCode" resultType="java.lang.Integer" parameterType="com.github.wxiaoqi.security.pms.entity.PmsProjectReport">
+      select count(1) from pms_project_report
+      where project_code=#{projectCode}
+      <if test="id != null and id != '' ">
+          and id!=#{id}
+      </if>
+  </select>
+
 </mapper>

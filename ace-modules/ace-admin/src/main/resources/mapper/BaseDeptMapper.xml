@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.github.wxiaoqi.security.admin.mapper.BaseDeptMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.github.wxiaoqi.security.admin.entity.BaseDept" id="baseDeptMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="pid" column="pid"/>
+    </resultMap>
+
+  <select id="getParentCodeCont" resultType="java.lang.Integer">
+      select count(1) from base_dept
+      where 1=1
+      <if test="pid == null or pid == ''">
+          and pid is null or pid =''
+      </if>
+      <if test="pid != null and pid != ''">
+          and pid = #{pid}
+      </if>
+  </select>
+
+    <select id="getChildCnt" resultType="java.lang.Integer">
+        select count(1) from base_dept where pid = #{id}
+    </select>
+    <select id="getChildUser" resultType="java.lang.Integer">
+        select count(1) from base_user where dept=#{id}
+    </select>
+    <select id="getParentCode" resultType="java.lang.String">
+        select code from base_dept
+        where id = #{pid}
+    </select>
+    <select id="selectByQueryCount" resultType="java.lang.Integer">
+        select count(1) from base_dept t1
+        where 1=1
+        <if test="pid != null and pid != ''">
+            and t1.pid=#{pid}
+        </if>
+        <if test="pid == null or pid == ''">
+            and (t1.pid is null or t1.pid = '')
+        </if>
+        <if test="name != null and name != ''">
+            and t1.name like concat('%', #{name}, '%')
+        </if>
+        <if test="code != null and code != ''">
+            and t1.code like concat('%', #{code}, '%')
+        </if>
+    </select>
+    <select id="selectByQuery" resultType="java.util.Map">
+        select t1.*,
+        case when t2.cnt &gt; 0 then true else false end hasChildren
+        from base_dept t1
+        left join
+        (
+          select pid,count(1) cnt from base_dept where pid is not null or pid != '' group by pid
+        ) t2 on t1.id=t2.pid
+        where 1=1
+        <if test="pid != null and pid != ''">
+            and t1.pid=#{pid}
+        </if>
+        <if test="pid == null or pid == ''">
+            and (t1.pid is null or t1.pid = '')
+        </if>
+        <if test="name != null and name != ''">
+            and t1.name like concat('%', #{name}, '%')
+        </if>
+        <if test="code != null and code != ''">
+            and t1.code like concat('%', #{code}, '%')
+        </if>
+    </select>
+
+</mapper>

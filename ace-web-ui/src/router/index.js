@@ -80,7 +80,15 @@ export const asyncRouterMap = [{
             component: _import('admin/user/index'),
             name: '用户管理',
             authority: 'userManager'
-        }, {
+        },
+          //组织机构
+          {
+            path: 'baseDept',
+            icon: 'fa-user',
+            component: _import('admin/dept/baseDept/index'),
+            name: '组织机构',
+            authority: 'baseDept'
+          },{
             path: 'menuManager',
             icon: 'category',
             component: _import('admin/menu/index'),

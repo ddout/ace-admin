@@ -48,10 +48,11 @@ public class BaseController<Biz extends BaseBiz, Entity> {
   @ResponseBody
   public ObjectRestResponse<Entity> get(@PathVariable String id) {
     ObjectRestResponse<Entity> entityObjectRestResponse = new ObjectRestResponse<>();
-    Object o = baseBiz.selectById(id);
+    Object o = baseBiz.selectById(parseId(id));
     entityObjectRestResponse.data((Entity) o);
     return entityObjectRestResponse;
   }
+
 
   public String getCurrentUserName() {
     return BaseContextHandler.getUsername();
@@ -68,7 +69,7 @@ public class BaseController<Biz extends BaseBiz, Entity> {
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   @ResponseBody
   public ObjectRestResponse<Entity> remove(@PathVariable String id) {
-    baseBiz.deleteById(id);
+    baseBiz.deleteById(parseId(id));
     return new ObjectRestResponse<Entity>();
   }
 
@@ -79,5 +80,14 @@ public class BaseController<Biz extends BaseBiz, Entity> {
     return new ObjectRestResponse<Entity>();
   }
 
+  public static final Object parseId(String id){
+    Object val = id;
+    try{
+      int ids = Integer.parseInt(id);
+      val = ids;
+    } catch (Exception e){
+    }
+    return val;
+  }
 
 }

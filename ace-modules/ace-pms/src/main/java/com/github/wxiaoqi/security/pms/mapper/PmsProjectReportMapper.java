@@ -12,4 +12,5 @@ import tk.mybatis.mapper.common.Mapper;
  */
 public interface PmsProjectReportMapper extends Mapper<PmsProjectReport> {
 
+  int checkCode(PmsProjectReport entity);
 }

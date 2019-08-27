@@ -13,6 +13,7 @@ public class User {
     private String password;
 
     private String name;
+    private String dept;
 
     private String birthday;
 
@@ -455,6 +456,14 @@ public class User {
      */
     public String getAttr8() {
         return attr8;
+    }
+
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept;
     }
 
     /**
