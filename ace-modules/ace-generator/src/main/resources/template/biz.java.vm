@@ -6,6 +6,7 @@ import ${package}.entity.${className};
 import ${package}.mapper.${className}Mapper;
 import com.github.wxiaoqi.security.common.biz.BaseBiz;
 import tk.mybatis.mapper.entity.Example;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * ${comments}
@@ -17,7 +18,7 @@ import tk.mybatis.mapper.entity.Example;
 @Service
 public class ${className}Biz extends BaseBiz<${className}Mapper,${className}> {
 
-  @Override
+  @Autowired
   private ${className}Mapper bizMapper;
 
   @Override
