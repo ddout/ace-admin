@@ -34,7 +34,7 @@
     <result column="attr7" jdbcType="VARCHAR" property="attr7" />
     <result column="attr8" jdbcType="VARCHAR" property="attr8" />
   </resultMap>
-  
+
   <select id="selectMemberByGroupId" resultMap="BaseResultMap">
     select u.* from base_user u
     left join  base_group_member gm
@@ -44,5 +44,26 @@
     select u.* from base_user u
     left join  base_group_leader gm
     on gm.user_id = u.id where gm.group_id = #{groupId}
+  </select>
+  <select id="selectByQueryCount" resultType="java.lang.Integer">
+    select
+    count(1)
+    from base_user t1
+    left join base_dept t2 on t1.dept=t2.id
+      where 1=1
+      <if test="projectName != null and projectName!= ''">
+        and (t1.username like concat('%',#{projectName},'%') or t1.name like concat('%',#{projectName},'%'))
+      </if>
+
+  </select>
+  <select id="selectByQuery" resultType="java.util.Map">
+    select
+    t1.id, username, t1.name, t2.name deptName, birthday, address, mobile_phone, tel_phone, email, sex, type, status, description, crt_time, crt_user, crt_name, crt_host, upd_time, upd_user, upd_name, upd_host, attr1, attr2, attr3, attr4, attr5, attr6, attr7, attr8, dept
+    from base_user t1
+    left join base_dept t2 on t1.dept=t2.id
+    where 1=1
+    <if test="projectName != null and projectName!= ''">
+      and (t1.username like concat('%',#{projectName},'%') or t1.name like concat('%',#{projectName},'%'))
+    </if>
   </select>
 </mapper>

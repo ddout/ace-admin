@@ -15,6 +15,17 @@ public class User {
     private String name;
     private String dept;
 
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    @Transient
+    private String deptName;
+
     private String birthday;
 
     private String address;
@@ -472,4 +483,5 @@ public class User {
     public void setAttr8(String attr8) {
         this.attr8 = attr8;
     }
+
 }

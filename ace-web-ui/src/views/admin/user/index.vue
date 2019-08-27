@@ -8,26 +8,23 @@
   <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
     <el-table-column align="center" label="序号" width="65"> <template scope="scope">
           <span>{{scope.row.id}}</span>
-        </template> </el-table-column>
-    <el-table-column width="200" align="center" label="姓名"> <template scope="scope">
+        </template>
+    </el-table-column>
+    <el-table-column  align="center" label="所属机构"> <template scope="scope">
+      <span>{{scope.row.deptName}}</span>
+    </template>
+    </el-table-column>
+    <el-table-column  align="center" label="姓名"> <template scope="scope">
         <span>{{scope.row.name}}</span>
-      </template> </el-table-column>
-    <el-table-column width="110" align="center" label="账户"> <template scope="scope">
+      </template>
+    </el-table-column>
+    <el-table-column  align="center" label="账户"> <template scope="scope">
             <span>{{scope.row.username}}</span>
           </template> </el-table-column>
-    <el-table-column width="110" align="center" label="性别"> <template scope="scope">
+    <el-table-column align="center" label="性别"> <template scope="scope">
             <span>{{scope.row.sex}}</span>
           </template> </el-table-column>
-    <el-table-column width="300" align="center" label="备注"> <template scope="scope">
-            <span>{{scope.row.description}}</span>
-          </template> </el-table-column>
-    <el-table-column width="180" align="center" label="最后时间"> <template scope="scope">
-          <span>{{scope.row.updTime}}</span>
-        </template> </el-table-column>
-    <el-table-column width="200" align="center" label="最后更新人"> <template scope="scope">
-            <span>{{scope.row.updName}}</span>
-          </template> </el-table-column>
-    <el-table-column align="center" label="操作" width="150"> <template scope="scope">
+    <el-table-column fixed="right" align="center" label="操作" width="150"> <template scope="scope">
         <el-button v-if="userManager_btn_edit" size="small" type="success" @click="handleResetPassword(scope.row)">重置密码
         </el-button>
         <el-button v-if="userManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
@@ -39,8 +36,15 @@
   <div v-show="!listLoading" class="pagination-container">
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
   </div>
+
   <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
     <el-form :model="form" :rules="rules" ref="form" label-width="100px">
+      <el-form-item label="所属机构" prop="deptName">
+        <el-input v-model="form.deptName" placeholder="请输入所属机构" readonly="readonly" @focus="deptClick"></el-input>
+      </el-form-item>
+      <el-form-item label="所属机构" prop="dept" v-show="false">
+        <el-input v-model="form.dept" readonly="readonly"></el-input>
+      </el-form-item>
       <el-form-item label="姓名" prop="name">
         <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
       </el-form-item>
@@ -66,6 +70,15 @@
       <el-button v-else type="primary" @click="update('form')">确 定</el-button>
     </div>
   </el-dialog>
+
+  <el-dialog title="选择所属机构" :visible.sync="deptSelectShow">
+    <dept-select :deptName.sync="form.deptName" :dept.sync="form.dept" :dialogShow.sync="deptSelectShow"></dept-select>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="cancel('form')">取 消</el-button>
+      <el-button v-if="dialogStatus=='create'" type="primary" @click="create('form')">确 定</el-button>
+      <el-button v-else type="primary" @click="update('form')">确 定</el-button>
+    </div>
+  </el-dialog>
 </div>
 </template>
 
@@ -81,9 +94,11 @@ import {
 import { mapGetters } from 'vuex';
 import md5 from 'js-md5';
 
-
 export default {
   name: 'user',
+  components: {
+    'dept-select': () => import('./components/index')
+  },
   data() {
     return {
       form: {
@@ -91,8 +106,11 @@ export default {
         name: undefined,
         sex: '男',
         password: undefined,
-        description: undefined
+        description: undefined,
+        dept: 111,
+        deptName: 222
       },
+      deptSelectShow: false,
       rules: {
         name: [
           {
@@ -291,8 +309,13 @@ export default {
         name: undefined,
         sex: '男',
         password: undefined,
-        description: undefined
+        description: undefined,
+        deptName:undefined,
+        dept: undefined
       };
+    },
+    deptClick(){
+      this.deptSelectShow = true
     }
   }
 }

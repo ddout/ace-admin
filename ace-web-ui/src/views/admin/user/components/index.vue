@@ -4,7 +4,6 @@
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="名称" v-model="listQuery.name"> </el-input>
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="代码" v-model="listQuery.code"> </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" v-if="baseDeptManager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
     </div>
     <el-table :key='tableKey'
               :data="list"
@@ -32,37 +31,12 @@
     </el-table-column>
         <el-table-column fixed="right" align="center" label="操作" width="150">
         <template scope="scope">
-            <el-button v-if="baseDeptManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
-            </el-button>
-            <el-button v-if="baseDeptManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
+            <el-button  size="small" type="success" @click="handleUpdate(scope.row)">选择
             </el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <!--<div v-show="!listLoading" class="pagination-container">-->
-      <!--<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>-->
-    <!--</div>-->
-
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form :model="form" :rules="rules" ref="form" label-width="145px" top="2vh" :close-on-click-modal="false">
-
-                  <el-form-item label="名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入名称"></el-input>
-        </el-form-item>
-        <el-form-item label="代码" prop="code">
-          <el-input v-model="form.code" placeholder="自动生成" readonly="readonly"></el-input>
-        </el-form-item>
-                        <el-form-item label="父部门" prop="pid" v-show="false">
-          <el-input v-model="form.pid" placeholder="请输入父部门"></el-input>
-        </el-form-item>
-              </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="cancel('form')">取 消</el-button>
-        <el-button v-if="dialogStatus=='create'" type="primary" @click="create('form')">确 定</el-button>
-        <el-button v-else type="primary" @click="update('form')">确 定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -77,8 +51,10 @@
   import { mapGetters } from 'vuex';
   export default {
     name: 'baseDept',
+    props:['deptName','dept','dialogShow'],
     data() {
       return {
+
         form: {
         name : undefined,
           code : undefined,
@@ -162,15 +138,11 @@
       handleCreate() {
         this.resetTemp();
         this.dialogStatus = 'create';
-        this.dialogFormVisible = true;
       },
       handleUpdate(row) {
-        getObj(row.id)
-            .then(response => {
-          this.form = response.data;
-        this.dialogFormVisible = true;
-        this.dialogStatus = 'update';
-      });
+        this.$emit('update:dialogShow', false)
+        this.$emit('update:deptName', row.name)
+        this.$emit('update:dept', row.id)
       },
       handleDelete(row) {
         this.$confirm('此操作将永久删除, 是否继续?', '提示', {
@@ -245,6 +217,7 @@
         this.form.name = undefined
         this.form.code = undefined
       }
+
     }
   }
 </script>
