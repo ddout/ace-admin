@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ${package}.entity.${className};
 import ${package}.mapper.${className}Mapper;
 import com.github.wxiaoqi.security.common.biz.BaseBiz;
+import tk.mybatis.mapper.entity.Example;
 
 /**
  * ${comments}
