@@ -14,6 +14,11 @@
       <span>{{scope.row.deptName}}</span>
     </template>
     </el-table-column>
+    <el-table-column  align="center" label="职位">
+      <template scope="scope">
+        <span>{{getAttr1Name(scope.row.attr1)}}</span>
+      </template>
+    </el-table-column>
     <el-table-column  align="center" label="姓名"> <template scope="scope">
         <span>{{scope.row.name}}</span>
       </template>
@@ -44,6 +49,11 @@
       </el-form-item>
       <el-form-item label="所属机构" prop="dept" v-show="false">
         <el-input v-model="form.dept" readonly="readonly"></el-input>
+      </el-form-item>
+      <el-form-item label="岗位" prop="attr1">
+        <el-select class="filter-item" v-model="form.attr1" placeholder="请选择">
+          <el-option v-for="item in  attr1Options" :key="item.value" :label="item.name" :value="item.value"> </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="姓名" prop="name">
         <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
@@ -89,7 +99,8 @@ import {
   getObj,
   delObj,
   putObj,
-  resetPassword
+  resetPassword,
+  getAttr1List
 } from 'api/admin/user/index';
 import { mapGetters } from 'vuex';
 import md5 from 'js-md5';
@@ -108,7 +119,8 @@ export default {
         password: undefined,
         description: undefined,
         dept: 111,
-        deptName: 222
+        deptName: 222,
+        attr1: undefined
       },
       deptSelectShow: false,
       rules: {
@@ -161,6 +173,7 @@ export default {
         name: undefined
       },
       sexOptions: ['男', '女'],
+      attr1Options:[],
       dialogFormVisible: false,
       dialogStatus: '',
       userManager_btn_edit: false,
@@ -174,6 +187,7 @@ export default {
     }
   },
   created() {
+    this.getAttr1List();
     this.getList();
     this.userManager_btn_edit = this.elements['userManager:btn_edit'];
     this.userManager_btn_del = this.elements['userManager:btn_del'];
@@ -185,6 +199,20 @@ export default {
     ])
   },
   methods: {
+    getAttr1List(){
+      getAttr1List()
+      .then(response => {
+        this.attr1Options = response.data.rows;
+      })
+    },
+    getAttr1Name(val){
+      for(let i=0; i< this.attr1Options.length; i++){
+        if(this.attr1Options[i].value == val){
+          return this.attr1Options[i].name
+        }
+      }
+
+    },
     getList() {
       this.listLoading = true;
       page(this.listQuery)

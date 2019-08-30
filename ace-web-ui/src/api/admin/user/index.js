@@ -59,3 +59,11 @@ export function resetPassword(id) {
     method: 'get'
   });
 }
+
+export function getAttr1List() {
+  return fetch({
+    url: '/api/pms/dict/baseDict/page',
+    method: 'get',
+    params: {"typeId":"8e618af71a44426e9a4fd64e604b1d3d"}
+  });
+}
