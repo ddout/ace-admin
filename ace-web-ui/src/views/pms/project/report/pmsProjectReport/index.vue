@@ -125,7 +125,7 @@
                 <el-option
                   v-for="item in userOptions"
                   :key="item.id"
-                  :label="item.name + ' [' + (item.attr1?item.attr1:'') + ']'"
+                  :label="item.name + ' [' + (item.deptName?item.deptName:'') + ']'"
                   :value="item.id">
                 </el-option>
               </el-select>
@@ -137,7 +137,7 @@
                 <el-option
                   v-for="item in userOptions"
                   :key="item.id"
-                  :label="item.name + ' [' + (item.attr1?item.attr1:'') + ']'"
+                  :label="item.name + ' [' + (item.deptName?item.deptName:'') + ']'"
                   :value="item.id">
                 </el-option>
               </el-select>
@@ -152,7 +152,7 @@
                 <el-option
                   v-for="item in userOptions"
                   :key="item.id"
-                  :label="item.name + ' [' + (item.attr1?item.attr1:'') + ']'"
+                  :label="item.name + ' [' + (item.deptName?item.deptName:'') + ']'"
                   :value="item.id">
                 </el-option>
               </el-select>
