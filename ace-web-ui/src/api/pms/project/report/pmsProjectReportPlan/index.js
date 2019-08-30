@@ -37,3 +37,21 @@ method: 'put',
 data: obj
 })
 }
+
+
+export function getStageTypeList() {
+  return fetch({
+    url: '/api/pms/dict/baseDict/page',
+    method: 'get',
+    params: {"typeId":"d0e50e7ca54d43fbbe73284597ab6fe5"}
+  });
+}
+
+export function getProjectReportList() {
+  return fetch({
+    url: '/api/pms/project/report/pmsProjectReport/page',
+    method: 'get',
+    params: {"limit":99999}
+  });
+}
+

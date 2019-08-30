@@ -12,11 +12,19 @@
         <span>{{scope.row.id}}</span>
       </template>
     </el-table-column>
-        <el-table-column  align="center" label="工作内容">
-      <template scope="scope">
-        <span>{{scope.row.context}}</span>
-      </template>
-    </el-table-column>
+
+      <el-table-column  align="center" label="立项报告">
+        <template scope="scope">
+          <span>{{getProjectReportListName(scope.row.projectReportId)}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column  align="center" label="项目阶段">
+        <template scope="scope">
+          <span>{{getStageTypeListName(scope.row.stage)}}</span>
+        </template>
+      </el-table-column>
+
         <el-table-column  align="center" label="开始时间">
       <template scope="scope">
         <span>{{scope.row.beginTime}}</span>
@@ -27,11 +35,12 @@
         <span>{{scope.row.endTime}}</span>
       </template>
     </el-table-column>
-        <el-table-column  align="center" label="立项报告">
-      <template scope="scope">
-        <span>{{scope.row.projectReportId}}</span>
-      </template>
-    </el-table-column>
+      <el-table-column  align="center" label="工作内容">
+        <template scope="scope">
+          <span>{{scope.row.context}}</span>
+        </template>
+      </el-table-column>
+
         <el-table-column fixed="right" align="center" label="操作" width="150">
         <template scope="scope">
             <el-button v-if="pmsProjectReportPlanManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
@@ -45,20 +54,48 @@
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
     </div>
+
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
-        <el-form-item label="工作内容" prop="context">
-      <el-input v-model="form.context" placeholder="请输入工作内容"></el-input>
-    </el-form-item>
+
+      <el-form-item label="立项报告" prop="projectReportId">
+        <el-select class="filter-item" v-model="form.projectReportId" filterable placeholder="请选择">
+          <el-option v-for="item in  projectReportList" :key="item.id" :label="item.projectName+' ['+item.projectCode+']'" :value="item.id"> </el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="项目阶段" prop="stage">
+        <el-select class="filter-item" v-model="form.stage" filterable placeholder="请选择">
+          <el-option v-for="item in  stageTypeList" :key="item.value" :label="item.name" :value="item.value"> </el-option>
+        </el-select>
+      </el-form-item>
+
         <el-form-item label="开始时间" prop="beginTime">
-      <el-input v-model="form.beginTime" placeholder="请输入开始时间"></el-input>
+          <el-date-picker
+            v-model="form.beginTime"
+            align="right"
+            type="date"
+            placeholder="请输入项目开始时间"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd">
+          </el-date-picker>
     </el-form-item>
         <el-form-item label="结束时间" prop="endTime">
-      <el-input v-model="form.endTime" placeholder="请输入结束时间"></el-input>
+          <el-date-picker
+            v-model="form.endTime"
+            align="right"
+            type="date"
+            placeholder="请输入项目结束时间"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd">
+          </el-date-picker>
     </el-form-item>
-        <el-form-item label="立项报告" prop="projectReportId">
-      <el-input v-model="form.projectReportId" placeholder="请输入立项报告"></el-input>
-    </el-form-item>
+
+        <el-form-item label="工作内容" prop="context">
+          <el-input v-model="form.context" placeholder="请输入工作内容"></el-input>
+        </el-form-item>
+
         </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel('form')">取 消</el-button>
@@ -75,7 +112,9 @@
       addObj,
       getObj,
       delObj,
-      putObj
+      putObj,
+    getStageTypeList,
+    getProjectReportList
   } from 'api/pms/project/report/pmsProjectReportPlan/index';
   import { mapGetters } from 'vuex';
   export default {
@@ -85,19 +124,7 @@
         form: {
         context : undefined,        beginTime : undefined,        endTime : undefined,        projectReportId : undefined          },
         rules: {
-    context: [
-  {
-    required: true,
-    message: '请输入工作内容',
-    trigger: 'blur'
-  },
-  {
-    min: 3,
-    max: 20,
-    message: '长度在 3 到 20 个字符',
-    trigger: 'blur'
-  }
-],   beginTime: [
+  beginTime: [
   {
     required: true,
     message: '请输入开始时间',
@@ -126,14 +153,15 @@
     required: true,
     message: '请输入立项报告',
     trigger: 'blur'
-  },
-  {
-    min: 3,
-    max: 20,
-    message: '长度在 3 到 20 个字符',
-    trigger: 'blur'
   }
-]        },
+] ,   stage: [
+            {
+              required: true,
+              message: '请输入项目阶段',
+              trigger: 'blur'
+            }
+          ]
+        },
         list: null,
         total: null,
         listLoading: true,
@@ -151,10 +179,14 @@
           update: '编辑',
           create: '创建'
         },
-        tableKey: 0
+        tableKey: 0,
+        stageTypeList:[],
+        projectReportList:[]
       }
     },
     created() {
+      this.getStageTypeList();
+      this.getProjectReportList();
       this.getList();
       this.pmsProjectReportPlanManager_btn_edit = this.elements['pmsProjectReportPlanManager:btn_edit'];
       this.pmsProjectReportPlanManager_btn_del = this.elements['pmsProjectReportPlanManager:btn_del'];
@@ -166,6 +198,32 @@
       ])
     },
     methods: {
+      getStageTypeList(){
+        getStageTypeList()
+        .then(response => {
+          this.stageTypeList = response.data.rows;
+        })
+      },
+      getStageTypeListName(val){
+        for(let i=0; i< this.stageTypeList.length; i++){
+          if(this.stageTypeList[i].value == val){
+            return this.stageTypeList[i].name
+          }
+        }
+      },
+      getProjectReportList(){
+        getProjectReportList()
+        .then(response => {
+          this.projectReportList = response.data.rows;
+        })
+      },
+      getProjectReportListName(val){
+        for(let i=0; i< this.projectReportList.length; i++){
+          if(this.projectReportList[i].id == val){
+            return this.projectReportList[i].projectName + '['+ this.projectReportList[i].projectCode +']'
+          }
+        }
+      },
       getList() {
         this.listLoading = true;
         page(this.listQuery)

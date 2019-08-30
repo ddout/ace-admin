@@ -7,6 +7,13 @@
     </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
+
+      <el-table-column  align="center" label="立项报告">
+        <template scope="scope">
+          <span>{{getProjectReportListName(scope.row.projectReportId)}}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column align="center" label="id" v-if="false">
       <template scope="scope">
         <span>{{scope.row.id}}</span>
@@ -14,7 +21,7 @@
     </el-table-column>
         <el-table-column  align="center" label="研发人员">
       <template scope="scope">
-        <span>{{scope.row.user}}</span>
+        <span>{{getUserOptionsName(scope.row.user)}}</span>
       </template>
     </el-table-column>
         <el-table-column  align="center" label="备注">
@@ -22,11 +29,7 @@
         <span>{{scope.row.remark}}</span>
       </template>
     </el-table-column>
-        <el-table-column  align="center" label="立项报告">
-      <template scope="scope">
-        <span>{{scope.row.projectReportId}}</span>
-      </template>
-    </el-table-column>
+
         <el-table-column fixed="right" align="center" label="操作" width="150">
         <template scope="scope">
             <el-button v-if="pmsProjectReportUsersManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
@@ -42,15 +45,28 @@
     </div>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
+
+        <el-form-item label="立项报告" prop="projectReportId">
+          <el-select class="filter-item" v-model="form.projectReportId" filterable placeholder="请选择">
+            <el-option v-for="item in  projectReportList" :key="item.id" :label="item.projectName+' ['+item.projectCode+']'" :value="item.id"> </el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="研发人员" prop="user">
-      <el-input v-model="form.user" placeholder="请输入研发人员"></el-input>
+          <el-select v-model="form.user" filterable placeholder="请选择">
+            <el-option
+              v-for="item in userOptions"
+              :key="item.id"
+              :label="item.name + ' [' + (item.attr1?item.attr1:'') + ']'"
+              :value="item.id">
+            </el-option>
+          </el-select>
     </el-form-item>
+
         <el-form-item label="备注" prop="remark">
       <el-input v-model="form.remark" placeholder="请输入备注"></el-input>
     </el-form-item>
-        <el-form-item label="立项报告" prop="projectReportId">
-      <el-input v-model="form.projectReportId" placeholder="请输入立项报告"></el-input>
-    </el-form-item>
+
         </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel('form')">取 消</el-button>
@@ -67,7 +83,9 @@
       addObj,
       getObj,
       delObj,
-      putObj
+      putObj,
+    getProjectReportList,
+    getUserOptions
   } from 'api/pms/project/report/pmsProjectReportUsers/index';
   import { mapGetters } from 'vuex';
   export default {
@@ -82,35 +100,11 @@
     required: true,
     message: '请输入研发人员',
     trigger: 'blur'
-  },
-  {
-    min: 3,
-    max: 20,
-    message: '长度在 3 到 20 个字符',
-    trigger: 'blur'
-  }
-],   remark: [
-  {
-    required: true,
-    message: '请输入备注',
-    trigger: 'blur'
-  },
-  {
-    min: 3,
-    max: 20,
-    message: '长度在 3 到 20 个字符',
-    trigger: 'blur'
   }
 ],   projectReportId: [
   {
     required: true,
     message: '请输入立项报告',
-    trigger: 'blur'
-  },
-  {
-    min: 3,
-    max: 20,
-    message: '长度在 3 到 20 个字符',
     trigger: 'blur'
   }
 ]        },
@@ -131,10 +125,14 @@
           update: '编辑',
           create: '创建'
         },
-        tableKey: 0
+        tableKey: 0,
+        projectReportList:[],
+        userOptions:[]
       }
     },
     created() {
+      this.getProjectReportList();
+      this.getUserOptions();
       this.getList();
       this.pmsProjectReportUsersManager_btn_edit = this.elements['pmsProjectReportUsersManager:btn_edit'];
       this.pmsProjectReportUsersManager_btn_del = this.elements['pmsProjectReportUsersManager:btn_del'];
@@ -250,7 +248,35 @@
               user : undefined,                                        //备注
               remark : undefined,                                        //立项报告
               projectReportId : undefined                          };
+      },
+      getProjectReportList(){
+        getProjectReportList()
+        .then(response => {
+          this.projectReportList = response.data.rows;
+        })
+      },
+      getProjectReportListName(val){
+        for(let i=0; i< this.projectReportList.length; i++){
+          if(this.projectReportList[i].id == val){
+            return this.projectReportList[i].projectName + '['+ this.projectReportList[i].projectCode +']'
+          }
+        }
+      },
+      getUserOptions(){
+        getUserOptions()
+        .then(response => {
+          this.userOptions = response.data.rows;
+        })
+      },
+      getUserOptionsName(val){
+        for(let i=0; i< this.userOptions.length; i++){
+          if(this.userOptions[i].id == val){
+            return this.userOptions[i].name
+          }
+        }
       }
+
+
     }
   }
 </script>

@@ -51,6 +51,6 @@ export function getUserOptions() {
   return fetch({
     url: '/api/admin/user/page',
     method: 'get',
-    params: {"limit":99999,"a":""}
+    params: {"limit":99999}
   });
 }

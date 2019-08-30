@@ -20,23 +20,34 @@ public class PmsProjectReportPlan implements Serializable {
 				@Id
 		@GeneratedValue(generator="UUID")
 		private String id;
-			
+
+	public String getStage() {
+		return stage;
+	}
+
+	public void setStage(String stage) {
+		this.stage = stage;
+	}
+
+	//项目阶段
+	@Column(name = "stage")
+	private String stage;
 	    //工作内容
     @Column(name = "context")
     private String context;
-	
+
 	    //开始时间
     @Column(name = "begin_time")
     private Date beginTime;
-	
+
 	    //结束时间
     @Column(name = "end_time")
     private Date endTime;
-	
+
 	    //立项报告
     @Column(name = "project_report_id")
     private String projectReportId;
-	
+
 
 	/**
 	 * 设置：ID

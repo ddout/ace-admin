@@ -37,3 +37,21 @@ method: 'put',
 data: obj
 })
 }
+
+
+export function getProjectReportList() {
+  return fetch({
+    url: '/api/pms/project/report/pmsProjectReport/page',
+    method: 'get',
+    params: {"limit":99999}
+  });
+}
+
+
+export function getUserOptions() {
+  return fetch({
+    url: '/api/admin/user/page',
+    method: 'get',
+    params: {"limit":99999}
+  });
+}
