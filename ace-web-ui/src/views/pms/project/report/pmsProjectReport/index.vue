@@ -24,7 +24,7 @@
     </el-table-column>
         <el-table-column  align="center" label="项目类型">
       <template scope="scope">
-        <span>{{scope.row.projectType}}</span>
+        <span>{{getProjectTypeName(scope.row.projectType)}}</span>
       </template>
     </el-table-column>
         <el-table-column  align="center" label="客户名称">
@@ -32,19 +32,19 @@
         <span>{{scope.row.customer}}</span>
       </template>
     </el-table-column>
-        <el-table-column  align="center" label="项目发起人">
+    <el-table-column  align="center" label="项目发起人">
       <template scope="scope">
-        <span>{{scope.row.sponsor}}</span>
+        <span>{{getUserOptionsName(scope.row.sponsor)}}</span>
       </template>
     </el-table-column>
         <el-table-column  align="center" label="项目负责人">
       <template scope="scope">
-        <span>{{scope.row.projectManager}}</span>
+        <span>{{getUserOptionsName(scope.row.projectManager)}}</span>
       </template>
     </el-table-column>
         <el-table-column  align="center" label="研发负责人">
       <template scope="scope">
-        <span>{{scope.row.devManager}}</span>
+        <span>{{getUserOptionsName(scope.row.devManager)}}</span>
       </template>
     </el-table-column>
         <el-table-column  align="center" label="立项时间">
@@ -67,51 +67,14 @@
         <span>{{scope.row.projectEndTime}}</span>
       </template>
     </el-table-column>
-        <el-table-column  align="center" label="项目立项内容">
-      <template scope="scope">
-        <span>{{scope.row.projectContext}}</span>
-      </template>
-    </el-table-column>
-        <el-table-column  align="center" label="主要研究内容">
-      <template scope="scope">
-        <span>{{scope.row.devContext}}</span>
-      </template>
-    </el-table-column>
-        <el-table-column  align="center" label="关键技术">
-      <template scope="scope">
-        <span>{{scope.row.keyTechnology}}</span>
-      </template>
-    </el-table-column>
-        <el-table-column  align="center" label="创新点">
-      <template scope="scope">
-        <span>{{scope.row.innovation}}</span>
-      </template>
-    </el-table-column>
+
         <el-table-column  align="center" label="人员人工预算">
       <template scope="scope">
         <span>{{scope.row.humanBudget}}</span>
       </template>
     </el-table-column>
-        <el-table-column  align="center" label="直接投入预算">
-      <template scope="scope">
-        <span>{{scope.row.directInputBudget}}</span>
-      </template>
-    </el-table-column>
-        <el-table-column  align="center" label="设计费用预算">
-      <template scope="scope">
-        <span>{{scope.row.designBudget}}</span>
-      </template>
-    </el-table-column>
-        <el-table-column  align="center" label="其他费用预算">
-      <template scope="scope">
-        <span>{{scope.row.otherBudget}}</span>
-      </template>
-    </el-table-column>
-        <el-table-column  align="center" label="结论和建议">
-      <template scope="scope">
-        <span>{{scope.row.peojectReportConclusion}}</span>
-      </template>
-    </el-table-column>
+
+
         <el-table-column fixed="right" align="center" label="操作" width="150">
         <template scope="scope">
             <el-button v-if="pmsProjectReportManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
@@ -143,7 +106,9 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="项目类型" prop="projectType">
-              <el-input v-model="form.projectType" placeholder="请输入项目类型"></el-input>
+              <el-select class="filter-item" v-model="form.projectType" placeholder="请选择">
+                <el-option v-for="item in  projectTypeList" :key="item.value" :label="item.name" :value="item.value"> </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -156,12 +121,26 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="项目发起人" prop="sponsor">
-              <el-input v-model="form.sponsor" placeholder="请输入项目发起人"></el-input>
+              <el-select v-model="form.sponsor" filterable placeholder="请选择">
+                <el-option
+                  v-for="item in userOptions"
+                  :key="item.id"
+                  :label="item.name + ' [' + (item.attr1?item.attr1:'') + ']'"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="项目负责人" prop="projectManager">
-              <el-input v-model="form.projectManager" placeholder="请输入项目负责人"></el-input>
+              <el-select v-model="form.projectManager" filterable placeholder="请选择">
+                <el-option
+                  v-for="item in userOptions"
+                  :key="item.id"
+                  :label="item.name + ' [' + (item.attr1?item.attr1:'') + ']'"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -169,7 +148,14 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="研发负责人" prop="devManager">
-              <el-input v-model="form.devManager" placeholder="请输入研发负责人"></el-input>
+              <el-select v-model="form.devManager" filterable placeholder="请选择">
+                <el-option
+                  v-for="item in userOptions"
+                  :key="item.id"
+                  :label="item.name + ' [' + (item.attr1?item.attr1:'') + ']'"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -282,7 +268,9 @@
       addObj,
       getObj,
       delObj,
-      putObj
+      putObj,
+      getProjectTypeList,
+      getUserOptions
   } from 'api/pms/project/report/pmsProjectReport/index';
   import { mapGetters } from 'vuex';
   export default {
@@ -387,10 +375,14 @@
           update: '编辑',
           create: '创建'
         },
-        tableKey: 0
+        tableKey: 0,
+        projectTypeList:[],
+        userOptions:[]
       }
     },
     created() {
+      this.getProjectTypeList();
+      this.getUserOptions();
       this.getList();
       this.pmsProjectReportManager_btn_edit = this.elements['pmsProjectReportManager:btn_edit'];
       this.pmsProjectReportManager_btn_del = this.elements['pmsProjectReportManager:btn_del'];
@@ -402,6 +394,32 @@
       ])
     },
     methods: {
+      getProjectTypeList(){
+        getProjectTypeList()
+        .then(response => {
+          this.projectTypeList = response.data.rows;
+        })
+      },
+      getProjectTypeName(val){
+        for(let i=0; i< this.projectTypeList.length; i++){
+          if(this.projectTypeList[i].value == val){
+            return this.projectTypeList[i].name
+          }
+        }
+      },
+      getUserOptions(){
+        getUserOptions()
+        .then(response => {
+          this.userOptions = response.data.rows;
+        })
+      },
+      getUserOptionsName(val){
+        for(let i=0; i< this.userOptions.length; i++){
+          if(this.userOptions[i].id == val){
+            return this.userOptions[i].name
+          }
+        }
+      },
       getList() {
         this.listLoading = true;
         page(this.listQuery)

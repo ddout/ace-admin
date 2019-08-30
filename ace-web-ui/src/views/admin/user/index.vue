@@ -14,7 +14,7 @@
       <span>{{scope.row.deptName}}</span>
     </template>
     </el-table-column>
-    <el-table-column  align="center" label="职位">
+    <el-table-column  align="center" label="岗位">
       <template scope="scope">
         <span>{{getAttr1Name(scope.row.attr1)}}</span>
       </template>
@@ -211,7 +211,6 @@ export default {
           return this.attr1Options[i].name
         }
       }
-
     },
     getList() {
       this.listLoading = true;

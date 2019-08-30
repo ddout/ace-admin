@@ -37,3 +37,20 @@ method: 'put',
 data: obj
 })
 }
+
+
+export function getProjectTypeList() {
+  return fetch({
+    url: '/api/pms/dict/baseDict/page',
+    method: 'get',
+    params: {"typeId":"a59adf96111c4408add8c275f06daabb"}
+  });
+}
+
+export function getUserOptions() {
+  return fetch({
+    url: '/api/admin/user/page',
+    method: 'get',
+    params: {"limit":99999,"a":""}
+  });
+}
